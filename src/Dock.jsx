@@ -69,7 +69,7 @@ function DockItem({ children, section, active, label, onClick, onShow, onHide })
       ref={ref}
       className={`dock-item${section ? ' is-section' : ''}${active ? ' is-active' : ''}`}
       onClick={onClick}
-      onMouseEnter={() => onShow(ref.current, label)}
+      onMouseEnter={() => { if (!section) onShow(ref.current, label) }}
       onMouseLeave={onHide}
     >
       {children}
