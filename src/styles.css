@@ -129,6 +129,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .tile { background: var(--card); border-radius: var(--radius); padding: 28px 20px; display: flex; flex-direction: column; gap: 14px; align-items: flex-start; font-size: 16px; font-weight: 500; box-shadow: 0 2px 10px #0a22460a; transition: transform .12s, box-shadow .12s; }
 .tile:hover { transform: translateY(-3px); box-shadow: 0 8px 22px #0a224614; }
 .tile-emoji { font-size: 36px; }
+.tile-img { display: block; width: 56px; height: 56px; border-radius: 14px; object-fit: cover; }
 
 /* ===== DOCK ===== */
 .dock-wrap { position: fixed; left: 0; right: 0; bottom: 22px; display: flex; justify-content: center; pointer-events: none; z-index: 50; }

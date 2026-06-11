@@ -1,10 +1,10 @@
 const TILES = [
-  { emoji: '💼', label: 'Зарплатный проект' },
-  { emoji: '📊', label: 'Бухгалтерия' },
-  { emoji: '🧾', label: 'Эквайринг' },
-  { emoji: '🛡️', label: 'Страхование' },
-  { emoji: '📈', label: 'Инвестиции' },
-  { emoji: '🤝', label: 'Партнёрам' },
+  { img: '/products/p1.png', label: 'Зарплатный проект' },
+  { img: '/products/p2.png', label: 'Бухгалтерия' },
+  { img: '/products/p3.png', label: 'Эквайринг' },
+  { img: '/products/p1.png', label: 'Страхование' },
+  { img: '/products/p3.png', label: 'Инвестиции' },
+  { img: '/products/p2.png', label: 'Партнёрам' },
 ]
 
 export default function Services({ onOpenProduct }) {
@@ -14,7 +14,7 @@ export default function Services({ onOpenProduct }) {
       <div className="tiles">
         {TILES.map((t) => (
           <button key={t.label} className="tile" onClick={() => onOpenProduct(t)}>
-            <span className="tile-emoji">{t.emoji}</span>
+            <img className="tile-img" src={t.img} alt="" width={56} height={56} />
             <span>{t.label}</span>
           </button>
         ))}
