@@ -134,17 +134,19 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   background: var(--card); border: 1px solid #00307821; border-radius: 12px;
   padding: 14px 16px; min-height: 56px; width: 100%; text-align: left;
 }
-.field-row { display: flex; gap: 12px; margin-top: 12px; }
-.field-row > .field { margin-top: 0; }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; align-items: stretch; }
+.field-row > .field { margin-top: 0; min-width: 0; height: 100%; }
 .field + .field, .field-select + .field-row { margin-top: 12px; }
 .field-placeholder { flex: 1; color: var(--secondary); }
 .field-select { cursor: pointer; }
 .field-chevron { flex-shrink: 0; }
-.field-input { flex: 1; border: none; outline: none; background: none; font: inherit; color: var(--text); width: 100%; resize: none; }
+.field-input { flex: 1; border: none; outline: none; background: none; font: inherit; line-height: 24px; height: 24px; color: var(--text); width: 100%; resize: none; }
+textarea.field-input { height: auto; }
 .field-input::placeholder { color: var(--secondary); }
 .field-muted { background: #0030780a; border-color: transparent; }
 .field-stack { flex: 1; display: flex; flex-direction: column; gap: 2px; }
-.field-cap { font-size: 13px; font-weight: 600; }
+.field-stack .muted { font-size: 14px; line-height: 18px; }
+.field-cap { font-size: 13px; line-height: 16px; font-weight: 600; }
 .info-ic { display: inline-flex; flex-shrink: 0; }
 
 .account-field { cursor: pointer; gap: 14px; }
