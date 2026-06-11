@@ -132,10 +132,10 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
 /* ===== DOCK ===== */
 .dock-wrap { position: fixed; left: 0; right: 0; bottom: 22px; display: flex; justify-content: center; pointer-events: none; z-index: 50; }
-/* Автоскрытие с «краешком»: внутри раздела док съезжает вниз, виден верхний край */
-.dock-wrap.is-peeking .dock { transform: translateY(calc(100% + 22px - 14px)); }
-.dock-wrap .dock { transition: transform .28s cubic-bezier(.22,1,.36,1); }
-/* Невидимая зона захвата у нижнего края экрана — наводишь и док выезжает */
+/* В разделах док уменьшается (scale), на hover возвращается к полному размеру */
+.dock-wrap .dock { transition: transform .28s cubic-bezier(.22,1,.36,1), opacity .28s ease; transform-origin: bottom center; }
+.dock-wrap.is-compact .dock { transform: scale(0.62); opacity: .9; }
+/* Зона захвата у нижнего края — чтобы легче поймать уменьшенный док */
 .dock-hotzone { position: fixed; left: 0; right: 0; bottom: 0; height: 24px; pointer-events: auto; }
 .dock {
   pointer-events: auto;

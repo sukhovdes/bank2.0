@@ -10,8 +10,8 @@ export default function Dock({ active, onNavigate, products, onAddProduct }) {
   const [tooltip, setTooltip] = useState(null) // {x, label}
   const [revealed, setRevealed] = useState(false)
 
-  // На главной док всегда открыт; в разделах/продуктах — прячется, оставляя «краешек».
-  const peeking = active !== 'home' && !revealed
+  // На главной док в полный размер; в разделах/продуктах — уменьшается, на hover растёт обратно.
+  const compact = active !== 'home' && !revealed
 
   const show = (el, label) => {
     if (!el) return
@@ -22,7 +22,7 @@ export default function Dock({ active, onNavigate, products, onAddProduct }) {
 
   return (
     <div
-      className={`dock-wrap${peeking ? ' is-peeking' : ''}`}
+      className={`dock-wrap${compact ? ' is-compact' : ''}`}
       onMouseEnter={() => setRevealed(true)}
       onMouseLeave={() => { setRevealed(false); hide() }}
     >
@@ -57,7 +57,7 @@ export default function Dock({ active, onNavigate, products, onAddProduct }) {
         </DockItem>
       </div>
 
-      {tooltip && !peeking && <div className="dock-tooltip" style={{ left: tooltip.x }}>{tooltip.label}</div>}
+      {tooltip && !compact && <div className="dock-tooltip" style={{ left: tooltip.x }}>{tooltip.label}</div>}
     </div>
   )
 }
