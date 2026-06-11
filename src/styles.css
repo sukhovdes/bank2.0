@@ -132,10 +132,10 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .field {
   display: flex; align-items: center; gap: 12px;
   background: var(--card); border: 1px solid #00307821; border-radius: 12px;
-  padding: 14px 16px; min-height: 56px; width: 100%; text-align: left;
+  padding: 0 16px; min-height: 64px; width: 100%; text-align: left;
 }
-.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; align-items: stretch; }
-.field-row > .field { margin-top: 0; min-width: 0; height: 100%; }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
+.field-row > .field { margin-top: 0; min-width: 0; height: 64px; }
 .field + .field, .field-select + .field-row { margin-top: 12px; }
 .field-placeholder { flex: 1; color: var(--secondary); }
 .field-select { cursor: pointer; }
@@ -155,7 +155,7 @@ textarea.field-input { height: auto; }
 .account-cap { font-size: 13px; }
 .account-sum { font-size: 18px; font-weight: 700; }
 
-.field-textarea { align-items: stretch; flex-direction: column; gap: 8px; margin-top: 12px; }
+.field-textarea { align-items: stretch; flex-direction: column; gap: 8px; margin-top: 12px; height: auto; min-height: 96px; padding: 16px; }
 .textarea-foot { display: flex; align-items: center; justify-content: flex-end; gap: 8px; font-size: 13px; }
 
 .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
@@ -165,8 +165,8 @@ textarea.field-input { height: auto; }
 .form-more { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 8px 0; margin-bottom: 24px; border-top: 1px solid #00307814; padding-top: 22px; }
 .form-more h3 { margin: 0; }
 
-.form-actions { display: flex; gap: 12px; }
-.btn-primary, .btn-secondary { flex: 1; padding: 16px; border-radius: 12px; font-size: 15px; font-weight: 600; }
+.form-actions { display: flex; gap: 12px; width: 100%; }
+.btn-primary, .btn-secondary { flex: 1 1 0; min-width: 0; white-space: nowrap; height: 56px; padding: 0 16px; border-radius: 12px; font-size: 15px; font-weight: 600; }
 .btn-primary { background: var(--blue); color: #fff; }
 .btn-primary:hover { background: #004fdb; }
 .btn-secondary { background: var(--blue-soft); color: var(--blue); }
