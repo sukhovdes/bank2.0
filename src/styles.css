@@ -119,6 +119,57 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .island-tall { min-height: 520px; }
 .island-placeholder { padding: 40px; text-align: center; max-width: 360px; }
 
+/* ===== Форма перевода ===== */
+.form-island { display: block; padding: 32px; min-height: 0; }
+.form-tabs { display: flex; gap: 28px; border-bottom: 1px solid #00307814; margin-bottom: 24px; }
+.form-tab { padding: 0 0 14px; font-size: 16px; color: var(--secondary); position: relative; }
+.form-tab.is-active { color: var(--text); }
+.form-tab.is-active::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--blue); border-radius: 2px; }
+
+.form-section { margin-bottom: 28px; }
+.form-section h3 { font-size: 18px; margin-bottom: 14px; }
+
+.field {
+  display: flex; align-items: center; gap: 12px;
+  background: var(--card); border: 1px solid #00307821; border-radius: 12px;
+  padding: 14px 16px; min-height: 56px; width: 100%; text-align: left;
+}
+.field-row { display: flex; gap: 12px; margin-top: 12px; }
+.field-row > .field { margin-top: 0; }
+.field + .field, .field-select + .field-row { margin-top: 12px; }
+.field-placeholder { flex: 1; color: var(--secondary); }
+.field-select { cursor: pointer; }
+.field-chevron { flex-shrink: 0; }
+.field-input { flex: 1; border: none; outline: none; background: none; font: inherit; color: var(--text); width: 100%; resize: none; }
+.field-input::placeholder { color: var(--secondary); }
+.field-muted { background: #0030780a; border-color: transparent; }
+.field-stack { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+.field-cap { font-size: 13px; font-weight: 600; }
+.info-ic { display: inline-flex; flex-shrink: 0; }
+
+.account-field { cursor: pointer; gap: 14px; }
+.account-ic { width: 40px; height: 40px; border-radius: 12px; background: var(--blue-soft); display: grid; place-items: center; flex-shrink: 0; }
+.account-text { display: flex; flex-direction: column; }
+.account-cap { font-size: 13px; }
+.account-sum { font-size: 18px; font-weight: 700; }
+
+.field-textarea { align-items: stretch; flex-direction: column; gap: 8px; margin-top: 12px; }
+.textarea-foot { display: flex; align-items: center; justify-content: flex-end; gap: 8px; font-size: 13px; }
+
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.chip { padding: 8px 14px; border-radius: 10px; background: #0030780a; font-size: 14px; color: var(--text); }
+.chip.is-active { background: var(--blue); color: #fff; }
+
+.form-more { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 8px 0; margin-bottom: 24px; border-top: 1px solid #00307814; padding-top: 22px; }
+.form-more h3 { margin: 0; }
+
+.form-actions { display: flex; gap: 12px; }
+.btn-primary, .btn-secondary { flex: 1; padding: 16px; border-radius: 12px; font-size: 15px; font-weight: 600; }
+.btn-primary { background: var(--blue); color: #fff; }
+.btn-primary:hover { background: #004fdb; }
+.btn-secondary { background: var(--blue-soft); color: var(--blue); }
+.btn-secondary:hover { background: #0096ff22; }
+
 .anketa { text-align: center; max-width: 360px; padding: 40px; }
 .anketa h3 { margin: 16px 0 8px; font-size: 22px; }
 .primary-btn { background: var(--blue); color: #fff; padding: 12px 28px; border-radius: 12px; font-weight: 600; margin-top: 20px; }
