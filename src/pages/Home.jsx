@@ -27,7 +27,7 @@ export default function Home({ onNavigate }) {
       <div className="quick-row">
         {QUICK.map(({ icon, label }) => (
           <button key={label} className="quick-btn" onClick={() => onNavigate('payments')}>
-            <img className="quick-ic" src={icon} alt="" width={24} height={24} />
+            <img className="quick-ic" src={icon} alt="" width={20} height={20} />
             <span>{label}</span>
           </button>
         ))}
@@ -42,7 +42,7 @@ export default function Home({ onNavigate }) {
             </div>
             <div className="sum-row">
               <span className="sum">2 000 120<span className="sum-dim">,60 ₽</span></span>
-              <span className="card-chip">МИР</span>
+              <img className="card-mir" src="/icons/card_mir.png" alt="Карта" />
             </div>
           </div>
 

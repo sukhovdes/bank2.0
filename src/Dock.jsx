@@ -2,13 +2,15 @@ import { useRef, useState } from 'react'
 
 const SECTIONS = [
   { id: 'home', label: 'Главная', icon: '/icons/home.svg' },
-  { id: 'payments', label: 'Платежи', icon: '/icons/rubles.svg' },
+  { id: 'payments', label: 'Платежи', icon: '/icons/rubles_toolbar.svg' },
   { id: 'services', label: 'Сервисы', icon: '/icons/catalog.svg' },
 ]
 
-export default function Dock({ active, onNavigate, products, onAddProduct }) {
+export default function Dock({ active, onNavigate, products, onAddProduct, onRemoveProduct }) {
   const [tooltip, setTooltip] = useState(null) // {x, label}
   const [revealed, setRevealed] = useState(false)
+  const [dragId, setDragId] = useState(null)
+  const dockRef = useRef(null)
 
   // На главной док в полный размер; в разделах/продуктах — уменьшается, на hover растёт обратно.
   const compact = active !== 'home' && !revealed
@@ -29,7 +31,7 @@ export default function Dock({ active, onNavigate, products, onAddProduct }) {
       {/* Зона захвата у нижнего края — чтобы выехал даже когда спрятан */}
       <div className="dock-hotzone" />
 
-      <div className="dock">
+      <div className="dock" ref={dockRef}>
         {SECTIONS.map(({ id, label, icon }) => (
           <DockItem key={id} section active={active === id}
             label={label} onClick={() => onNavigate(id)} onShow={show} onHide={hide}>
@@ -45,7 +47,17 @@ export default function Dock({ active, onNavigate, products, onAddProduct }) {
         {products.map((p) => (
           <DockItem key={p.id} active={active === p.id}
             label={p.label} onClick={() => onNavigate(p.id)} onShow={show} onHide={hide}>
-            <img className="dock-product-img" src={p.img} alt={p.label} draggable={false} />
+            <img
+              className={`dock-product-img${dragId === p.id ? ' is-dragging' : ''}`}
+              src={p.img} alt={p.label} draggable
+              onDragStart={(e) => { setDragId(p.id); e.dataTransfer.effectAllowed = 'move' }}
+              onDragEnd={(e) => {
+                const r = dockRef.current?.getBoundingClientRect()
+                // Утащил иконку прочь от дока (вверх) — удаляем, как в macOS
+                if (r && e.clientY < r.top - 50) onRemoveProduct?.(p.id)
+                setDragId(null)
+              }}
+            />
             {active === p.id && <span className="dock-dot" />}
           </DockItem>
         ))}

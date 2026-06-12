@@ -4,7 +4,6 @@ import Home from './pages/Home.jsx'
 import Payments from './pages/Payments.jsx'
 import Services from './pages/Services.jsx'
 import Product from './pages/Product.jsx'
-import { IcBell } from './icons.jsx'
 import { PRODUCT_ICONS } from './productIcons.js'
 
 const INITIAL_PRODUCTS = [
@@ -39,6 +38,11 @@ export default function App() {
     else setView('services')
   }
 
+  const removeProduct = (id) => {
+    setProducts((prev) => prev.filter((p) => p.id !== id))
+    setView((v) => (v === id ? 'home' : v))
+  }
+
   const product = products.find((p) => p.id === view)
 
   let content
@@ -51,14 +55,14 @@ export default function App() {
   return (
     <div className="app">
       <header className="topbar">
-        <div className="logo">ozon <span>банк</span></div>
+        <img className="logo" src="/icons/logo.svg" alt="ozon банк" />
         <div className="topbar-right">
-          <button className="icon-btn bell"><IcBell width={22} height={22} /></button>
+          <button className="icon-btn bell"><img src="/icons/bell.svg" alt="Уведомления" width={24} height={24} /></button>
           <div className="profile">
             <div className="profile-name">ИП Коновалов И.Л.</div>
             <div className="profile-inn">ИНН 341215944685</div>
           </div>
-          <div className="avatar">○</div>
+          <img className="avatar" src="/icons/avatar.png" alt="" />
         </div>
       </header>
 
@@ -69,6 +73,7 @@ export default function App() {
         onNavigate={setView}
         products={products}
         onAddProduct={addProduct}
+        onRemoveProduct={removeProduct}
       />
     </div>
   )
