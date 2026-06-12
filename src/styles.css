@@ -223,7 +223,7 @@ textarea.field-input { height: auto; }
   position: relative; z-index: 1;
   display: flex; align-items: flex-end; gap: 6px;
   padding: 8px 10px;
-  background: rgba(0, 48, 120, .55); /* #003078 — тёмное стекло */
+  background: rgba(0, 48, 120, .38); /* #003078 — тёмное стекло, прозрачнее */
   backdrop-filter: blur(18px) saturate(180%);
   -webkit-backdrop-filter: blur(18px) saturate(180%);
   border: 1px solid rgba(255,255,255,.14);
