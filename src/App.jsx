@@ -62,7 +62,7 @@ export default function App() {
             <div className="profile-name">ИП Коновалов И.Л.</div>
             <div className="profile-inn">ИНН 341215944685</div>
           </div>
-          <img className="avatar" src="/icons/avatar.png" alt="" />
+          <img className="avatar" src="/icons/avatar@3x.png" alt="" />
         </div>
       </header>
 

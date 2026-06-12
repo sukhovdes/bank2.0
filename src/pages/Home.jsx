@@ -42,7 +42,7 @@ export default function Home({ onNavigate }) {
             </div>
             <div className="sum-row">
               <span className="sum">2 000 120<span className="sum-dim">,60 ₽</span></span>
-              <img className="card-mir" src="/icons/card_mir.png" alt="Карта" />
+              <img className="card-mir" src="/icons/card_mir@3x.png" alt="Карта" />
             </div>
           </div>
 
