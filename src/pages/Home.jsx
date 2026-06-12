@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { IcChevron, IcCross, IcRefresh } from '../icons.jsx'
+import { IcChevron, IcRefresh } from '../icons.jsx'
 
 const QUICK = [
   { icon: '/icons/circle_plus.svg', label: 'Новый платёж' },
@@ -46,10 +46,7 @@ export default function Home({ onNavigate }) {
       <div className="home-grid">
         <div className="col col-products">
           <div className="card account">
-            <div className="card-top">
-              <span className="muted">Счёт для бизнеса · 1234</span>
-              <span className="kebab">···</span>
-            </div>
+            <span className="muted">Счёт для бизнеса · 1234</span>
             <div className="sum">2 000 120<span className="sum-dim">,60 ₽</span></div>
             <img className="card-mir" src="/icons/card_mir@3x.png" alt="Карта" />
           </div>
@@ -63,10 +60,7 @@ export default function Home({ onNavigate }) {
           </div>
 
           <div className="card account">
-            <div className="card-top">
-              <span className="muted">Отсрочка на Ozon для бизнеса</span>
-              <button className="icon-btn"><IcCross width={18} height={18} /></button>
-            </div>
+            <span className="muted">Отсрочка на Ozon для бизнеса</span>
             <div className="sum">Доступно: 200 000<span className="sum-dim"> ₽</span></div>
             <button className="link-btn"><IcRefresh width={18} height={18} /><span>Обновить лимит</span></button>
           </div>

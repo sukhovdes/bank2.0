@@ -102,8 +102,8 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   border-radius: 0 0 16px 16px; background: var(--card); z-index: -1;
   box-shadow: 0 6px 14px #0a22461a;
 }
-.card-stacked::before { width: calc(100% - 22px); height: 18px; bottom: -8px; }
-.card-stacked::after { width: calc(100% - 44px); height: 18px; bottom: -15px; background: #eef1f6; }
+.card-stacked::before { width: calc(100% - 20px); height: 20px; bottom: -9px; background: #fbfcfe; }
+.card-stacked::after { width: calc(100% - 40px); height: 20px; bottom: -17px; background: #eef1f6; }
 
 /* Кнопка «Новый продукт» под карточками */
 .new-product-btn {
@@ -223,9 +223,9 @@ textarea.field-input { height: auto; }
   position: relative; z-index: 1;
   display: flex; align-items: flex-end; gap: 6px;
   padding: 8px 10px;
-  background: rgba(204, 214, 228, .6); /* #CCD6E4 60% */
-  backdrop-filter: blur(24px) saturate(160%);
-  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  background: rgba(204, 214, 228, .6); /* #CCD6E4 60% — фон за доком размывается */
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
   border: 1px solid rgba(255,255,255,.5);
   border-radius: 22px;
   box-shadow: 0 12px 40px #0a224626, inset 0 1px 0 #ffffff80;
