@@ -223,7 +223,7 @@ textarea.field-input { height: auto; }
   position: relative; z-index: 1;
   display: flex; align-items: flex-end; gap: 6px;
   padding: 8px 10px;
-  background: rgba(204, 214, 228, .6); /* #CCD6E4 60% — фон за доком размывается */
+  background: rgba(204, 214, 228, .4); /* #CCD6E4 — прозрачный, фон под доком просвечивает и размывается */
   backdrop-filter: blur(40px) saturate(180%);
   -webkit-backdrop-filter: blur(40px) saturate(180%);
   border: 1px solid rgba(255,255,255,.5);
