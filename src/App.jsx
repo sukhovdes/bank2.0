@@ -4,6 +4,7 @@ import Home from './pages/Home.jsx'
 import Payments from './pages/Payments.jsx'
 import Services from './pages/Services.jsx'
 import Product from './pages/Product.jsx'
+import Welcome from './Welcome.jsx'
 import { PRODUCT_ICONS } from './productIcons.js'
 
 const INITIAL_PRODUCTS = [
@@ -19,8 +20,11 @@ const CATALOG = [
 ]
 
 export default function App() {
+  const [entered, setEntered] = useState(false)
   const [view, setView] = useState('home')
   const [products, setProducts] = useState(INITIAL_PRODUCTS)
+
+  if (!entered) return <Welcome onEnter={() => setEntered(true)} />
 
   const openProduct = (tile) => {
     const id = 'p-' + tile.label
