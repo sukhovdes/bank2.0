@@ -120,7 +120,8 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .island-placeholder { padding: 40px; text-align: center; max-width: 360px; }
 
 /* ===== Форма перевода ===== */
-.form-island { display: block; padding: 32px; min-height: 0; }
+.form-island { display: flex; flex-direction: column; align-items: stretch; place-items: stretch; padding: 32px; min-height: 0; }
+.form-island > * { width: 100%; }
 .form-tabs { display: flex; gap: 28px; border-bottom: 1px solid #00307814; margin-bottom: 24px; }
 .form-tab { padding: 0 0 14px; font-size: 16px; color: var(--secondary); position: relative; }
 .form-tab.is-active { color: var(--text); }
