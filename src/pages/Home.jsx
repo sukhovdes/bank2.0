@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { IcChevron, IcCross, IcRefresh } from '../icons.jsx'
 
 const QUICK = [
@@ -21,32 +22,39 @@ const HISTORY = [
   { icon: '/icons/circle_plus.svg', title: 'Зарплата · 12 сотрудников', sub: '08 февраля', amount: '−640 000 ₽' },
 ]
 
+// Прогресс-бар заявки анимируем только один раз за сессию
+let progressAnimated = false
+
 export default function Home({ onNavigate }) {
+  const [animateProgress] = useState(() => {
+    if (progressAnimated) return false
+    progressAnimated = true
+    return true
+  })
+
   return (
     <div className="page page-home">
       <div className="quick-row">
         {QUICK.map(({ icon, label }) => (
           <button key={label} className="quick-btn" onClick={() => onNavigate('payments')}>
-            <img className="quick-ic" src={icon} alt="" width={20} height={20} />
+            <img className="quick-ic" src={icon} alt="" width={15} height={15} />
             <span>{label}</span>
           </button>
         ))}
       </div>
 
       <div className="home-grid">
-        <div className="col">
+        <div className="col col-products">
           <div className="card account">
             <div className="card-top">
               <span className="muted">Счёт для бизнеса · 1234</span>
               <span className="kebab">···</span>
             </div>
-            <div className="sum-row">
-              <span className="sum">2 000 120<span className="sum-dim">,60 ₽</span></span>
-              <img className="card-mir" src="/icons/card_mir@3x.png" alt="Карта" />
-            </div>
+            <div className="sum">2 000 120<span className="sum-dim">,60 ₽</span></div>
+            <img className="card-mir" src="/icons/card_mir@3x.png" alt="Карта" />
           </div>
 
-          <div className="card account">
+          <div className="card account card-stacked">
             <span className="muted">Доходные продукты</span>
             <div className="sum-row">
               <span className="sum">43 120<span className="sum-dim">,60 ₽</span></span>
@@ -59,12 +67,13 @@ export default function Home({ onNavigate }) {
               <span className="muted">Отсрочка на Ozon для бизнеса</span>
               <button className="icon-btn"><IcCross width={18} height={18} /></button>
             </div>
-            <div className="avail-row">
-              <span className="muted">Доступно:</span>
-              <span className="sum">200 000<span className="sum-dim"> ₽</span></span>
-            </div>
+            <div className="sum">Доступно: 200 000<span className="sum-dim"> ₽</span></div>
             <button className="link-btn"><IcRefresh width={18} height={18} /><span>Обновить лимит</span></button>
           </div>
+
+          <button className="new-product-btn" onClick={() => onNavigate('services')}>
+            <span className="np-plus">+</span> Новый продукт
+          </button>
         </div>
 
         <div className="col">
@@ -73,10 +82,12 @@ export default function Home({ onNavigate }) {
               <span>Заявка на кредит · 9266</span>
               <IcChevron width={20} height={20} className="muted" />
             </div>
-            <div className="progress"><span style={{ width: '78%' }} /></div>
+            <div className="progress">
+              <span className={animateProgress ? 'is-animated' : ''} style={{ width: '78%' }} />
+            </div>
           </div>
 
-          <div className="card tasks">
+          <div className="card tasks no-hover">
             <div className="tasks-head">
               <h3>Задачи</h3>
               <div className="segment">
@@ -85,7 +96,7 @@ export default function Home({ onNavigate }) {
               </div>
             </div>
             {TASKS.map((t, i) => (
-              <div className="task-row" key={i}>
+              <button className="task-row" key={i}>
                 <span className="task-ic"><img src={t.icon} alt="" width={24} height={24} /></span>
                 <div className="task-body">
                   <div className="task-title">{t.title}</div>
@@ -93,21 +104,21 @@ export default function Home({ onNavigate }) {
                 </div>
                 {t.badge && <span className="task-badge">{t.badge}</span>}
                 <IcChevron width={18} height={18} className="muted" />
-              </div>
+              </button>
             ))}
           </div>
 
-          <div className="card history">
+          <div className="card history no-hover">
             <h3>История</h3>
             {HISTORY.map((h, i) => (
-              <div className="task-row" key={i}>
+              <button className="task-row" key={i}>
                 <span className="task-ic"><img src={h.icon} alt="" width={24} height={24} /></span>
                 <div className="task-body">
                   <div className="task-title">{h.title}</div>
                   <div className="task-sub muted">{h.sub}</div>
                 </div>
                 <span className={`hist-amount${h.positive ? ' is-positive' : ''}`}>{h.amount}</span>
-              </div>
+              </button>
             ))}
           </div>
         </div>
