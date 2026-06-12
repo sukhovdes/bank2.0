@@ -7,7 +7,6 @@ const SECTIONS = [
 ]
 
 export default function Dock({ active, onNavigate, products, onAddProduct, onRemoveProduct }) {
-  const [tooltip, setTooltip] = useState(null) // {x, label}
   const [revealed, setRevealed] = useState(false)
   const [dragId, setDragId] = useState(null)
   const dockRef = useRef(null)
@@ -15,28 +14,20 @@ export default function Dock({ active, onNavigate, products, onAddProduct, onRem
   // На главной док в полный размер; в разделах/продуктах — уменьшается, на hover растёт обратно.
   const compact = active !== 'home' && !revealed
 
-  const show = (el, label) => {
-    if (!el) return
-    const r = el.getBoundingClientRect()
-    setTooltip({ x: r.left + r.width / 2, label })
-  }
-  const hide = () => setTooltip(null)
-
   return (
     <div
       className={`dock-wrap${compact ? ' is-compact' : ''}`}
       onMouseEnter={() => setRevealed(true)}
-      onMouseLeave={() => { setRevealed(false); hide() }}
+      onMouseLeave={() => setRevealed(false)}
     >
       {/* Зона захвата у нижнего края — чтобы выехал даже когда спрятан */}
       <div className="dock-hotzone" />
 
       <div className="dock" ref={dockRef}>
         {SECTIONS.map(({ id, label, icon }) => (
-          <DockItem key={id} section active={active === id}
-            label={label} onClick={() => onNavigate(id)} onShow={show} onHide={hide}>
+          <DockItem key={id} section active={active === id} onClick={() => onNavigate(id)}>
             <span className="dock-section">
-              <img className="dock-section-ic" src={icon} alt="" width={22} height={22} />
+              <img className="dock-section-ic" src={icon} alt="" />
               <span className="dock-section-label">{label}</span>
             </span>
           </DockItem>
@@ -45,8 +36,7 @@ export default function Dock({ active, onNavigate, products, onAddProduct, onRem
         <span className="dock-divider" />
 
         {products.map((p) => (
-          <DockItem key={p.id} active={active === p.id}
-            label={p.label} onClick={() => onNavigate(p.id)} onShow={show} onHide={hide}>
+          <DockItem key={p.id} active={active === p.id} tip={p.label} onClick={() => onNavigate(p.id)}>
             <img
               className={`dock-product-img${dragId === p.id ? ' is-dragging' : ''}`}
               src={p.img} alt={p.label} draggable
@@ -62,29 +52,24 @@ export default function Dock({ active, onNavigate, products, onAddProduct, onRem
           </DockItem>
         ))}
 
-        <DockItem label="Добавить продукт" onClick={onAddProduct} onShow={show} onHide={hide}>
+        <DockItem tip="Добавить продукт" onClick={onAddProduct}>
           <span className="dock-add">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>
           </span>
         </DockItem>
       </div>
-
-      {tooltip && !compact && <div className="dock-tooltip" style={{ left: tooltip.x }}>{tooltip.label}</div>}
     </div>
   )
 }
 
-function DockItem({ children, section, active, label, onClick, onShow, onHide }) {
-  const ref = useRef(null)
+function DockItem({ children, section, active, tip, onClick }) {
   return (
     <button
-      ref={ref}
       className={`dock-item${section ? ' is-section' : ''}${active ? ' is-active' : ''}`}
       onClick={onClick}
-      onMouseEnter={() => { if (!section) onShow(ref.current, label) }}
-      onMouseLeave={onHide}
     >
       {children}
+      {tip && <span className="item-tip">{tip}</span>}
     </button>
   )
 }

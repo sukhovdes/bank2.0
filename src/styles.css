@@ -35,7 +35,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   display: flex; align-items: center; justify-content: space-between;
   padding: 18px 40px;
 }
-.logo { height: 24px; width: auto; display: block; }
+.logo { height: 24px; width: 156px; display: block; }
 .topbar-right { display: flex; align-items: center; gap: 16px; }
 .profile { text-align: right; line-height: 1.2; }
 .profile-name { font-size: 14px; font-weight: 600; }
@@ -210,7 +210,7 @@ textarea.field-input { height: auto; }
 .dock-item.is-section { padding: 0 16px; }
 .dock-item:hover { background: #0a224614; }
 .dock-section { display: flex; align-items: center; gap: 6px; color: var(--text); font-size: 16px; font-weight: 400; white-space: nowrap; }
-.dock-section-ic { display: block; width: 22px; height: 22px; }
+.dock-section-ic { display: block; width: 24px; height: 24px; padding: 3px; box-sizing: border-box; }
 .dock-item.is-active.is-section {
   background: linear-gradient(180deg, #fff, #ffffffb3);
   box-shadow: 0 2px 8px #0a224614;
@@ -231,15 +231,17 @@ textarea.field-input { height: auto; }
 }
 .dock-add:hover { color: var(--blue); }
 
-.dock-tooltip {
-  position: fixed; bottom: 100px; transform: translateX(-50%);
+/* Тултип привязан к своей иконке — позиция всегда корректна, не «прыгает» */
+.item-tip {
+  position: absolute; bottom: calc(100% + 12px); left: 50%; transform: translateX(-50%);
   z-index: 60;
   background: #001a34; color: #fff; padding: 6px 12px; border-radius: 10px;
   font-size: 13px; white-space: nowrap; pointer-events: none;
   box-shadow: 0 6px 20px #0a224633;
-  animation: fade .12s ease;
+  opacity: 0; transition: opacity .12s ease;
 }
-.dock-tooltip::after { content: ''; position: absolute; left: 50%; bottom: -5px; transform: translateX(-50%); border: 5px solid transparent; border-top-color: #001a34; border-bottom: 0; }
+.dock-item:hover .item-tip { opacity: 1; }
+.item-tip::after { content: ''; position: absolute; left: 50%; bottom: -5px; transform: translateX(-50%); border: 5px solid transparent; border-top-color: #001a34; border-bottom: 0; }
 
 /* Адаптив */
 @media (max-width: 900px) {
