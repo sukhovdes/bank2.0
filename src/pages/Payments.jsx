@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-const MENU = ['Перевести деньги', 'Выставление счетов', 'Справки и выписки', 'Лимиты и тарифы']
+const MENU = ['Платежи и переводы', 'Выставление счетов', 'Справки и выписки', 'Лимиты и тарифы']
 
 export default function Payments() {
   const [active, setActive] = useState(0)

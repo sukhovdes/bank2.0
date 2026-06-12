@@ -59,8 +59,11 @@ export default function Home({ onNavigate }) {
               <span className="muted">Отсрочка на Ozon для бизнеса</span>
               <button className="icon-btn"><IcCross width={18} height={18} /></button>
             </div>
-            <div className="sum">200 000</div>
-            <button className="link-btn"><IcRefresh width={18} height={18} /> Обновить лимит</button>
+            <div className="avail-row">
+              <span className="muted">Доступно:</span>
+              <span className="sum">200 000<span className="sum-dim"> ₽</span></span>
+            </div>
+            <button className="link-btn"><IcRefresh width={18} height={18} /><span>Обновить лимит</span></button>
           </div>
         </div>
 

@@ -35,6 +35,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   display: flex; align-items: center; justify-content: space-between;
   padding: 18px 40px;
 }
+.logo-btn { padding: 0; display: block; cursor: pointer; }
 .logo { height: 24px; width: 156px; display: block; }
 .topbar-right { display: flex; align-items: center; gap: 16px; }
 .profile { text-align: right; line-height: 1.2; }
@@ -42,6 +43,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .profile-inn { font-size: 11px; color: var(--muted); }
 .avatar { width: 40px; height: 40px; border-radius: 50%; display: block; object-fit: cover; }
 .bell { color: var(--muted); }
+.bell img { width: 24px; height: 24px; object-fit: contain; display: block; }
 .icon-btn { display: grid; place-items: center; color: var(--muted); padding: 6px; border-radius: 10px; }
 .icon-btn:hover { background: #00000008; }
 
@@ -69,7 +71,10 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 /* Home grid */
 .home-grid { display: grid; grid-template-columns: 1fr 1.25fr; gap: 16px; align-items: start; }
 .col { display: flex; flex-direction: column; gap: 16px; }
-.card { background: var(--card); border-radius: var(--radius); padding: 20px 24px; box-shadow: 0 2px 10px #0a22460a; }
+.card { background: var(--card); border-radius: var(--radius); padding: 20px 24px; box-shadow: 0 2px 10px #0a22460a; transition: transform .14s ease, box-shadow .14s ease; }
+.card:hover { transform: translateY(-2px); box-shadow: 0 10px 28px #0a224618; }
+.avail-row { display: flex; align-items: baseline; gap: 8px; margin-top: 8px; }
+.avail-row .muted { font-size: 14px; }
 .card-top { display: flex; justify-content: space-between; align-items: flex-start; }
 .kebab { color: var(--muted); letter-spacing: 1px; }
 .sum-row { display: flex; align-items: center; gap: 12px; margin-top: 8px; }
@@ -80,7 +85,8 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   padding: 6px 8px; border-radius: 6px;
 }
 .badge-up { background: var(--green-soft); color: var(--green); font-size: 12px; font-weight: 600; padding: 4px 8px; border-radius: 8px; }
-.link-btn { display: inline-flex; align-items: center; gap: 6px; color: var(--blue); font-weight: 600; margin-top: 12px; }
+.link-btn { display: inline-flex; align-items: center; gap: 6px; color: var(--blue); font-weight: 600; margin-top: 16px; padding: 0; line-height: 18px; }
+.link-btn svg { flex-shrink: 0; }
 
 /* Credit */
 .credit { cursor: pointer; }
@@ -94,7 +100,6 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .segment button { padding: 7px 16px; border-radius: 9px; font-size: 14px; color: var(--muted); }
 .seg-active { background: #fff; color: var(--text) !important; box-shadow: 0 1px 4px #0a224614; }
 .task-row { display: flex; align-items: center; gap: 16px; padding: 12px 0; }
-.task-row + .task-row { border-top: 1px solid #00307814; }
 .task-ic { width: 40px; height: 40px; border-radius: 12px; background: #0030780a; display: grid; place-items: center; flex-shrink: 0; }
 .task-ic img { display: block; width: 20px; height: 20px; }
 .task-body { flex: 1; min-width: 0; }

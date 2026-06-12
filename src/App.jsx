@@ -55,7 +55,9 @@ export default function App() {
   return (
     <div className="app">
       <header className="topbar">
-        <img className="logo" src="/icons/logo.svg" alt="ozon банк" />
+        <button className="logo-btn" onClick={() => setView('home')} aria-label="На главную">
+          <img className="logo" src="/icons/logo.svg" alt="ozon банк" />
+        </button>
         <div className="topbar-right">
           <button className="icon-btn bell"><img src="/icons/bell.svg" alt="Уведомления" width={24} height={24} /></button>
           <div className="profile">
