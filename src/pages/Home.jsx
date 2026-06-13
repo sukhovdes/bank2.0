@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { IcChevron, IcRefresh } from '../icons.jsx'
+import CardModal from '../components/CardModal.jsx'
 
 const QUICK = [
   { icon: '/icons/circle_plus.svg', label: 'Новый платёж' },
@@ -31,6 +32,7 @@ export default function Home({ onNavigate }) {
     progressAnimated = true
     return true
   })
+  const [cardOpen, setCardOpen] = useState(false)
 
   return (
     <div className="page page-home">
@@ -45,7 +47,7 @@ export default function Home({ onNavigate }) {
 
       <div className="home-grid">
         <div className="col col-products">
-          <div className="card account">
+          <div className="card account card-clickable" onClick={() => setCardOpen(true)}>
             <span className="muted">Счёт для бизнеса · 1234</span>
             <div className="sum">2 000 120<span className="sum-dim">,60 ₽</span></div>
             <img className="card-mir" src="/icons/card_mir@3x.png" alt="Карта" />
@@ -117,6 +119,8 @@ export default function Home({ onNavigate }) {
           </div>
         </div>
       </div>
+
+      <CardModal open={cardOpen} onClose={() => setCardOpen(false)} />
     </div>
   )
 }

@@ -1,6 +1,6 @@
 import { Drawer } from 'vaul'
 
-export default function PaymentDrawer({ open, onOpenChange, amount, recipient, account, date, fee }) {
+export default function PaymentDrawer({ open, onOpenChange, amount, recipient }) {
   return (
     <Drawer.Root open={open} onOpenChange={onOpenChange}>
       <Drawer.Portal>
@@ -10,27 +10,20 @@ export default function PaymentDrawer({ open, onOpenChange, amount, recipient, a
 
           <div className="pay-success">
             <div className="pay-check">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
-                <path d="m5 12.5 4.5 4.5L19 7.5" stroke="#fff" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"/>
+              <svg width="120" height="120" viewBox="0 0 120 120" fill="none">
+                <circle className="pay-check-ring" cx="60" cy="60" r="54" stroke="#10c44c" strokeWidth="5" />
+                <path className="pay-check-mark" d="M38 62.5 53 77 83 45" stroke="#10c44c" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </div>
 
             <Drawer.Title className="pay-title">Платёж отправлен</Drawer.Title>
             <div className="pay-amount">−{amount}<span className="sum-dim"> ₽</span></div>
-            <Drawer.Description className="pay-desc muted">Деньги поступят получателю в течение нескольких минут</Drawer.Description>
+            <Drawer.Description className="pay-desc muted">Получателю {recipient}</Drawer.Description>
+          </div>
 
-            <div className="pay-rows">
-              <div className="pay-row"><span className="muted">Получатель</span><span>{recipient}</span></div>
-              <div className="pay-row"><span className="muted">Счёт списания</span><span>Счёт для бизнеса ·· {account}</span></div>
-              <div className="pay-row"><span className="muted">Комиссия</span><span>{fee}</span></div>
-              <div className="pay-row"><span className="muted">Дата и время</span><span>{date}</span></div>
-              <div className="pay-row"><span className="muted">Статус</span><span className="pay-status">Исполнен</span></div>
-            </div>
-
-            <div className="pay-actions">
-              <button className="btn-primary" onClick={() => onOpenChange(false)}>Готово</button>
-              <button className="btn-secondary">Скачать квитанцию</button>
-            </div>
+          <div className="pay-actions">
+            <button className="btn-primary" onClick={() => onOpenChange(false)}>Готово</button>
+            <button className="btn-secondary">Скачать квитанцию</button>
           </div>
         </Drawer.Content>
       </Drawer.Portal>
