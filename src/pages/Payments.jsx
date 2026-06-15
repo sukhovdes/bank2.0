@@ -29,8 +29,19 @@ function TransferForm() {
   const [purpose, setPurpose] = useState('')
   const [amount, setAmount] = useState('')
   const [drawerOpen, setDrawerOpen] = useState(false)
+  const [filled, setFilled] = useState(false)
 
   const displayAmount = amount.trim() || '84 200'
+
+  // Мок-данные контрагента — по клику на «Получатель» (для презентации)
+  const fillMock = () => {
+    setFilled(true)
+    if (!amount.trim()) setAmount('84 200')
+    if (!purpose.trim()) setPurpose('Оплата по счёту № 142 от 10.06.2026, в т.ч. НДС')
+  }
+  const val = (v, placeholder) => filled
+    ? <span className="field-value">{v}</span>
+    : <span className="field-placeholder">{placeholder}</span>
 
   return (
     <div className="island form-island">
@@ -42,17 +53,17 @@ function TransferForm() {
 
       <section className="form-section">
         <h3>Кому</h3>
-        <div className="field field-select">
-          <span className="field-placeholder">Получатель</span>
+        <button className="field field-select" onClick={fillMock}>
+          {val('ООО «Ромашка»', 'Получатель')}
           <Chevron />
-        </div>
+        </button>
         <div className="field-row">
-          <div className="field field-select">
-            <span className="field-placeholder">Название банка или БИК</span>
+          <button className="field field-select" onClick={fillMock}>
+            {val('ПАО Сбербанк · 044525225', 'Название банка или БИК')}
             <Chevron />
-          </div>
+          </button>
           <div className="field">
-            <span className="field-placeholder">Расчётный счёт</span>
+            {val('40702810400000123456', 'Расчётный счёт')}
             <InfoIcon />
           </div>
         </div>

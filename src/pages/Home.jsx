@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { IcChevron, IcRefresh } from '../icons.jsx'
 import CardModal from '../components/CardModal.jsx'
 
@@ -23,15 +23,13 @@ const HISTORY = [
   { icon: '/icons/circle_plus.svg', title: 'Зарплата · 12 сотрудников', sub: '08 февраля', amount: '−640 000 ₽' },
 ]
 
-// Прогресс-бар заявки анимируем только один раз за сессию
-let progressAnimated = false
-
 export default function Home({ onNavigate }) {
-  const [animateProgress] = useState(() => {
-    if (progressAnimated) return false
-    progressAnimated = true
-    return true
-  })
+  // Прогресс-бар заявки заполняется анимацией при каждом открытии Главной
+  const [progressW, setProgressW] = useState(0)
+  useEffect(() => {
+    const t = setTimeout(() => setProgressW(78), 60)
+    return () => clearTimeout(t)
+  }, [])
   const [cardOpen, setCardOpen] = useState(false)
 
   return (
@@ -79,7 +77,7 @@ export default function Home({ onNavigate }) {
               <IcChevron width={20} height={20} className="muted" />
             </div>
             <div className="progress">
-              <span className={animateProgress ? 'is-animated' : ''} style={{ width: '78%' }} />
+              <span className="progress-fill" style={{ width: `${progressW}%` }} />
             </div>
           </div>
 

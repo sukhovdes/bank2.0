@@ -5,18 +5,19 @@ import Payments from './pages/Payments.jsx'
 import Services from './pages/Services.jsx'
 import Product from './pages/Product.jsx'
 import Welcome from './Welcome.jsx'
-import { PRODUCT_ICONS } from './productIcons.js'
 
 const INITIAL_PRODUCTS = [
-  { id: 'p-salary', label: 'Зарплатный проект', img: '/products/p1.png' },
-  { id: 'p-docs', label: 'Документооборот', img: '/products/p2.png' },
-  { id: 'p-delay', label: 'Отсрочка', img: '/products/p3.png' },
+  { id: 'p-salary', label: 'Зарплатный проект', img: '/products/salary.png' },
+  { id: 'p-accounting', label: 'Бухгалтерия', img: '/products/accounting.png' },
+  { id: 'p-delay', label: 'Отсрочка', img: '/products/delay.png' },
 ]
 
 const CATALOG = [
-  { label: 'Бухгалтерия', emoji: '📊', img: PRODUCT_ICONS.accounting },
-  { label: 'Страхование', emoji: '🛡️', img: PRODUCT_ICONS.insurance },
-  { label: 'Инвестиции', emoji: '📈', img: PRODUCT_ICONS.invest },
+  { label: 'Бизнес-карта', img: '/products/businesscard.png' },
+  { label: 'Кредит на любые цели', img: '/products/credit.png' },
+  { label: 'Деньги на закупки', img: '/products/purchases.png' },
+  { label: 'Банковские гарантии', img: '/products/guarantees.png' },
+  { label: 'Аналитика селлера', img: '/products/analytics.png' },
 ]
 
 export default function App() {
@@ -36,11 +37,7 @@ export default function App() {
     setView(id)
   }
 
-  const addProduct = () => {
-    const remaining = CATALOG.find((c) => !products.find((p) => p.id === 'p-' + c.label))
-    if (remaining) openProduct(remaining)
-    else setView('services')
-  }
+  const addProduct = () => setView('services')
 
   const removeProduct = (id) => {
     setProducts((prev) => prev.filter((p) => p.id !== id))
