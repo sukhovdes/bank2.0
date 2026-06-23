@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react'
-import { IcChevron, IcRefresh, IcCross } from '../icons.jsx'
+import { IcChevron, IcRefresh, IcCross, IcGear } from '../icons.jsx'
 import CardModal from '../components/CardModal.jsx'
+import QuickSettings from '../components/QuickSettings.jsx'
 
 const QUICK = [
-  { icon: '/icons/circle_plus.svg', label: 'Новый платёж' },
-  { icon: '/icons/rubles.svg', label: 'Пополнить счёт' },
-  { icon: '/icons/exchange.svg', label: 'Между счетами' },
-  { icon: '/icons/document_add.svg', label: 'Выставить счёт' },
-  { icon: '/icons/document.svg', label: 'Реквизиты' },
+  { id: 'pay', icon: '/icons/circle_plus.svg', label: 'Новый платёж', on: true },
+  { id: 'topup', icon: '/icons/rubles.svg', label: 'Пополнить счёт', on: true },
+  { id: 'between', icon: '/icons/exchange.svg', label: 'Между счетами', on: true },
+  { id: 'invoice', icon: '/icons/document_add.svg', label: 'Выставить счёт', on: true },
+  { id: 'reqs', icon: '/icons/document.svg', label: 'Реквизиты', on: true },
 ]
 
 const TASKS = [
@@ -23,7 +24,14 @@ const HISTORY = [
   { icon: '/icons/circle_plus.svg', title: 'Зарплата · 12 сотрудников', sub: '08 февраля', amount: '−640 000 ₽' },
 ]
 
-export default function Home({ onNavigate }) {
+const ADD_ITEMS = [
+  { label: 'Накопительный счёт', img: '/products/delay.png', desc: 'До 16% на остаток, снятие в любой момент' },
+  { label: 'Кредит на любые цели', img: '/products/credit.png', desc: 'До 30 млн ₽ на развитие бизнеса' },
+  { label: 'Бизнес-карта', img: '/products/businesscard.png', desc: 'Кешбэк и расходы под контролем' },
+  { label: 'Деньги на закупки', img: '/products/purchases.png', desc: 'Финансирование товара для Ozon' },
+]
+
+export default function Home({ onNavigate, onShowBanner, onOpenProduct }) {
   // Прогресс-бар заявки заполняется анимацией при каждом открытии Главной
   const [progressW, setProgressW] = useState(0)
   useEffect(() => {
@@ -32,16 +40,22 @@ export default function Home({ onNavigate }) {
   }, [])
   const [cardOpen, setCardOpen] = useState(false)
   const [promoOpen, setPromoOpen] = useState(true)
+  const [addOpen, setAddOpen] = useState(false)
+  const [quick, setQuick] = useState(QUICK)
+  const [settingsOpen, setSettingsOpen] = useState(false)
 
   return (
     <div className="page page-home">
       <div className="quick-row">
-        {QUICK.map(({ icon, label }) => (
-          <button key={label} className="quick-btn" onClick={() => onNavigate('payments')}>
+        {quick.filter((q) => q.on).map(({ id, icon, label }) => (
+          <button key={id} className="quick-btn" onClick={() => onNavigate('payments')}>
             <img className="quick-ic" src={icon} alt="" width={15} height={15} />
             <span>{label}</span>
           </button>
         ))}
+        <button className="quick-settings-btn" onClick={() => setSettingsOpen(true)} aria-label="Настроить быстрые действия">
+          <IcGear width={20} height={20} />
+        </button>
       </div>
 
       <div className="home-grid">
@@ -59,10 +73,14 @@ export default function Home({ onNavigate }) {
             </div>
           )}
 
-          <div className="card account card-clickable" onClick={() => setCardOpen(true)}>
+          <div className="card account card-clickable" onClick={() => onShowBanner?.()}>
             <span className="muted">Счёт для бизнеса · 1234</span>
             <div className="sum">2 000 120<span className="sum-dim">,60 ₽</span></div>
-            <img className="card-mir" src="/icons/card_mir@3x.png" alt="Карта" />
+            <img
+              className="card-mir card-mir-clickable"
+              src="/icons/card_mir@3x.png" alt="Карта"
+              onClick={(e) => { e.stopPropagation(); setCardOpen(true) }}
+            />
           </div>
 
           <div className="card account">
@@ -79,9 +97,30 @@ export default function Home({ onNavigate }) {
             <button className="link-btn"><IcRefresh width={18} height={18} /><span>Обновить лимит</span></button>
           </div>
 
-          <button className="new-product-btn" onClick={() => onNavigate('services')}>
-            <span className="np-plus">+</span> Добавить счёт или кредит
-          </button>
+          <div className="add-product-wrap">
+            {addOpen && (
+              <>
+                <div className="popover-catch" onClick={() => setAddOpen(false)} />
+                <div className="add-popover">
+                  {ADD_ITEMS.map((it) => (
+                    <button
+                      key={it.label} className="add-popover-item"
+                      onClick={() => { onOpenProduct?.(it); setAddOpen(false) }}
+                    >
+                      <img src={it.img} alt="" width={40} height={40} />
+                      <span className="add-popover-text">
+                        <span className="api-title">{it.label}</span>
+                        <span className="api-desc muted">{it.desc}</span>
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
+            <button className={`new-product-btn${addOpen ? ' is-open' : ''}`} onClick={() => setAddOpen((o) => !o)}>
+              <span className="np-plus">+</span> Добавить счёт или кредит
+            </button>
+          </div>
         </div>
 
         <div className="col">
@@ -133,6 +172,7 @@ export default function Home({ onNavigate }) {
       </div>
 
       <CardModal open={cardOpen} onClose={() => setCardOpen(false)} />
+      {settingsOpen && <QuickSettings items={quick} setItems={setQuick} onClose={() => setSettingsOpen(false)} />}
     </div>
   )
 }

@@ -5,6 +5,7 @@ import Payments from './pages/Payments.jsx'
 import Services from './pages/Services.jsx'
 import Product from './pages/Product.jsx'
 import Welcome from './Welcome.jsx'
+import AiSearch from './components/AiSearch.jsx'
 import { IcGear, IcChevronDown } from './icons.jsx'
 
 const INITIAL_PRODUCTS = [
@@ -25,6 +26,7 @@ export default function App() {
   const [entered, setEntered] = useState(false)
   const [view, setView] = useState('home')
   const [products, setProducts] = useState(INITIAL_PRODUCTS)
+  const [banner, setBanner] = useState(false)
 
   if (!entered) return <Welcome onEnter={() => setEntered(true)} />
 
@@ -48,7 +50,7 @@ export default function App() {
   const product = products.find((p) => p.id === view)
 
   let content
-  if (view === 'home') content = <Home onNavigate={setView} />
+  if (view === 'home') content = <Home onNavigate={setView} onShowBanner={() => setBanner(true)} onOpenProduct={openProduct} />
   else if (view === 'payments') content = <Payments />
   else if (view === 'services') content = <Services onOpenProduct={openProduct} />
   else if (product) content = <Product product={product} />
@@ -56,10 +58,22 @@ export default function App() {
 
   return (
     <div className="app">
+      {banner && (
+        <div className="top-banner" role="button" tabIndex={0}>
+          <div className="top-banner-text">
+            <div className="tb-title">Ограничения на счете</div>
+            <div className="tb-sub">Нажмите, чтобы узнать детали</div>
+          </div>
+          <button className="tb-close" onClick={() => setBanner(false)} aria-label="Закрыть">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="m7 7 10 10M17 7 7 17" stroke="#fff" strokeWidth="2" strokeLinecap="round"/></svg>
+          </button>
+        </div>
+      )}
       <header className="topbar">
         <button className="logo-btn" onClick={() => setView('home')} aria-label="На главную">
           <img className="logo" src="/icons/logo.svg" alt="ozon банк" />
         </button>
+        <AiSearch />
         <div className="topbar-right">
           <button className="hdr-icon-btn bell" aria-label="Уведомления"><img src="/icons/bell.svg" alt="" /></button>
           <button className="hdr-icon-btn" aria-label="Настройки"><IcGear width={20} height={20} /></button>
