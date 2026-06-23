@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
-import { IcChevron, IcRefresh } from '../icons.jsx'
+import { AnimatePresence, motion } from 'motion/react'
+import { IcChevron } from '../icons.jsx'
 import CardModal from '../components/CardModal.jsx'
 import QuickSettings from '../components/QuickSettings.jsx'
+import { BusinessAccountCard, DeferralCard, PromoCard } from '../components/HomeCards.jsx'
 
 const QUICK = [
   { id: 'pay', icon: '/icons/circle_plus.svg', label: 'Новый платёж', on: true },
@@ -9,6 +11,8 @@ const QUICK = [
   { id: 'between', icon: '/icons/exchange.svg', label: 'Между счетами', on: true },
   { id: 'invoice', icon: '/icons/document_add.svg', label: 'Выставить счёт', on: true },
   { id: 'reqs', icon: '/icons/document.svg', label: 'Реквизиты', on: true },
+  { id: 'salary', icon: '/icons/rubles.svg', label: 'Выплатить зарплату', on: false },
+  { id: 'cert', icon: '/icons/document.svg', label: 'Заказать справку', on: false },
 ]
 
 const TASKS = [
@@ -30,6 +34,8 @@ const ADD_ITEMS = [
   { label: 'Бизнес-карта', img: '/products/businesscard.png', desc: 'Кешбэк и расходы под контролем' },
   { label: 'Деньги на закупки', img: '/products/purchases.png', desc: 'Финансирование товара для Ozon' },
 ]
+
+const CARD_SPRING = { duration: 0.32, ease: [0.22, 1, 0.36, 1] }
 
 export default function Home({ onNavigate, onShowBanner, onOpenProduct }) {
   // Прогресс-бар заявки заполняется анимацией при каждом открытии Главной
@@ -54,50 +60,36 @@ export default function Home({ onNavigate, onShowBanner, onOpenProduct }) {
           </button>
         ))}
         <button className="quick-settings-btn" onClick={() => setSettingsOpen(true)} aria-label="Настроить быстрые действия">
-          <img src="/icons/gear.svg" alt="" width={20} height={20} />
+          <span className="gear-blue" />
         </button>
       </div>
 
       <div className="home-grid">
         <div className="col col-products">
-          {promoOpen && (
-            <div className="card promo-card">
-              <button className="promo-close" onClick={() => setPromoOpen(false)} aria-label="Закрыть">
-                <img src="/icons/cross.svg" alt="" width={18} height={18} />
-              </button>
-              <span className="muted">Счёт ежедневных выплат</span>
-              <div className="promo-row">
-                <span className="sum">10,85%<span className="promo-year"> годовых</span></span>
-                <span className="promo-badge">Ставка повышена</span>
-              </div>
-            </div>
-          )}
+          <motion.div layout transition={CARD_SPRING}>
+            <BusinessAccountCard onBody={() => onShowBanner?.()} onIcon={() => setCardOpen(true)} />
+          </motion.div>
 
-          <div className="card account card-clickable" onClick={() => onShowBanner?.()}>
-            <span className="muted">Счёт для бизнеса · 1234</span>
-            <div className="sum">2 000 120<span className="sum-dim">,60 ₽</span></div>
-            <img
-              className="card-mir card-mir-clickable"
-              src="/icons/card_mir@3x.png" alt="Карта"
-              onClick={(e) => { e.stopPropagation(); setCardOpen(true) }}
-            />
-          </div>
+          <motion.div layout transition={CARD_SPRING}>
+            <DeferralCard />
+          </motion.div>
 
-          <div className="card account">
-            <span className="muted">Доходные продукты</span>
-            <div className="sum-row">
-              <span className="sum">43 120<span className="sum-dim">,60 ₽</span></span>
-              <span className="badge-up">↗ +168 760 ₽</span>
-            </div>
-          </div>
+          <AnimatePresence initial={false}>
+            {promoOpen && (
+              <motion.div
+                key="promo" layout
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={CARD_SPRING}
+                style={{ overflow: 'hidden' }}
+              >
+                <PromoCard onClose={() => setPromoOpen(false)} />
+              </motion.div>
+            )}
+          </AnimatePresence>
 
-          <div className="card account">
-            <span className="muted">Отсрочка на Ozon для бизнеса</span>
-            <div className="sum">Доступно: 200 000<span className="sum-dim"> ₽</span></div>
-            <button className="link-btn"><IcRefresh width={18} height={18} /><span>Обновить лимит</span></button>
-          </div>
-
-          <div className="add-product-wrap">
+          <motion.div layout transition={CARD_SPRING} className="add-product-wrap">
             {addOpen && (
               <>
                 <div className="popover-catch" onClick={() => setAddOpen(false)} />
@@ -120,7 +112,7 @@ export default function Home({ onNavigate, onShowBanner, onOpenProduct }) {
             <button className={`new-product-btn${addOpen ? ' is-open' : ''}`} onClick={() => setAddOpen((o) => !o)}>
               <span className="np-plus">+</span> Добавить счёт или кредит
             </button>
-          </div>
+          </motion.div>
         </div>
 
         <div className="col">
