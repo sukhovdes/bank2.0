@@ -6,7 +6,7 @@ import Services from './pages/Services.jsx'
 import Product from './pages/Product.jsx'
 import Welcome from './Welcome.jsx'
 import AiSearch from './components/AiSearch.jsx'
-import { IcGear, IcChevronDown } from './icons.jsx'
+import { IcChevronDown } from './icons.jsx'
 
 const INITIAL_PRODUCTS = [
   { id: 'p-salary', label: 'Зарплатный проект', img: '/products/salary.png' },
@@ -65,7 +65,7 @@ export default function App() {
             <div className="tb-sub">Нажмите, чтобы узнать детали</div>
           </div>
           <button className="tb-close" onClick={() => setBanner(false)} aria-label="Закрыть">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="m7 7 10 10M17 7 7 17" stroke="#fff" strokeWidth="2" strokeLinecap="round"/></svg>
+            <img src="/icons/cross.svg" alt="" width={18} height={18} />
           </button>
         </div>
       )}
@@ -76,7 +76,7 @@ export default function App() {
         <AiSearch />
         <div className="topbar-right">
           <button className="hdr-icon-btn bell" aria-label="Уведомления"><img src="/icons/bell.svg" alt="" /></button>
-          <button className="hdr-icon-btn" aria-label="Настройки"><IcGear width={20} height={20} /></button>
+          <button className="hdr-icon-btn" aria-label="Настройки"><img className="hdr-gear" src="/icons/gear.svg" alt="" width={20} height={20} /></button>
           <button className="profile-chip">
             <img className="avatar" src="/icons/avatar@3x.png" alt="" />
             <span className="profile">

@@ -176,6 +176,8 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .tb-sub { font-size: 13px; color: #ffffff99; }
 .tb-close { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); display: grid; place-items: center; padding: 6px; border-radius: 8px; }
 .tb-close:hover { background: #ffffff1f; }
+.tb-close img { display: block; filter: brightness(0) invert(1); }
+.ai-spark { display: block; }
 .card-mir-clickable { cursor: pointer; transition: transform .14s; }
 .card-mir-clickable:hover { transform: scale(1.04); }
 

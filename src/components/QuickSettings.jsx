@@ -24,7 +24,7 @@ export default function QuickSettings({ items, setItems, onClose }) {
         <div className="qs-head">
           <h3>Быстрые действия</h3>
           <button className="qs-close" onClick={onClose} aria-label="Закрыть">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="m7 7 10 10M17 7 7 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>
+            <img src="/icons/cross.svg" alt="" width={20} height={20} />
           </button>
         </div>
         <p className="muted qs-sub">Включите нужные и перетащите, чтобы изменить порядок</p>

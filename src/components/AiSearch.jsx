@@ -15,14 +15,9 @@ const SUGGESTIONS = [
   { icon: '📈', title: 'Аналитика бизнеса', desc: '«как изменилась прибыль за месяц»' },
 ]
 
-function Spark({ size = 20 }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-      <path d="M12 3l1.6 4.6L18 9.2l-4.4 1.6L12 15l-1.6-4.2L6 9.2l4.4-1.6L12 3Z" fill="#005bff"/>
-      <path d="M18.5 14l.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8.8-2.2Z" fill="#7a5af8"/>
-    </svg>
-  )
-}
+const Spark = ({ size = 20 }) => (
+  <img className="ai-spark" src="/icons/sparkles.svg" alt="" width={size} height={size} />
+)
 
 export default function AiSearch() {
   const [open, setOpen] = useState(false)

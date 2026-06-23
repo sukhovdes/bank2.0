@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { IcChevron, IcRefresh, IcCross, IcGear } from '../icons.jsx'
+import { IcChevron, IcRefresh } from '../icons.jsx'
 import CardModal from '../components/CardModal.jsx'
 import QuickSettings from '../components/QuickSettings.jsx'
 
@@ -54,7 +54,7 @@ export default function Home({ onNavigate, onShowBanner, onOpenProduct }) {
           </button>
         ))}
         <button className="quick-settings-btn" onClick={() => setSettingsOpen(true)} aria-label="Настроить быстрые действия">
-          <IcGear width={20} height={20} />
+          <img src="/icons/gear.svg" alt="" width={20} height={20} />
         </button>
       </div>
 
@@ -63,7 +63,7 @@ export default function Home({ onNavigate, onShowBanner, onOpenProduct }) {
           {promoOpen && (
             <div className="card promo-card">
               <button className="promo-close" onClick={() => setPromoOpen(false)} aria-label="Закрыть">
-                <IcCross width={18} height={18} />
+                <img src="/icons/cross.svg" alt="" width={18} height={18} />
               </button>
               <span className="muted">Счёт ежедневных выплат</span>
               <div className="promo-row">
