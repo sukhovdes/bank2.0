@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { IcChevron, IcRefresh } from '../icons.jsx'
+import { IcChevron, IcRefresh, IcCross } from '../icons.jsx'
 import CardModal from '../components/CardModal.jsx'
 
 const QUICK = [
@@ -31,6 +31,7 @@ export default function Home({ onNavigate }) {
     return () => clearTimeout(t)
   }, [])
   const [cardOpen, setCardOpen] = useState(false)
+  const [promoOpen, setPromoOpen] = useState(true)
 
   return (
     <div className="page page-home">
@@ -45,13 +46,26 @@ export default function Home({ onNavigate }) {
 
       <div className="home-grid">
         <div className="col col-products">
+          {promoOpen && (
+            <div className="card promo-card">
+              <button className="promo-close" onClick={() => setPromoOpen(false)} aria-label="Закрыть">
+                <IcCross width={18} height={18} />
+              </button>
+              <span className="muted">Счёт ежедневных выплат</span>
+              <div className="promo-row">
+                <span className="sum">10,85%<span className="promo-year"> годовых</span></span>
+                <span className="promo-badge">Ставка повышена</span>
+              </div>
+            </div>
+          )}
+
           <div className="card account card-clickable" onClick={() => setCardOpen(true)}>
             <span className="muted">Счёт для бизнеса · 1234</span>
             <div className="sum">2 000 120<span className="sum-dim">,60 ₽</span></div>
             <img className="card-mir" src="/icons/card_mir@3x.png" alt="Карта" />
           </div>
 
-          <div className="card account card-stacked">
+          <div className="card account">
             <span className="muted">Доходные продукты</span>
             <div className="sum-row">
               <span className="sum">43 120<span className="sum-dim">,60 ₽</span></span>
@@ -66,7 +80,7 @@ export default function Home({ onNavigate }) {
           </div>
 
           <button className="new-product-btn" onClick={() => onNavigate('services')}>
-            <span className="np-plus">+</span> Новый продукт
+            <span className="np-plus">+</span> Добавить счёт или кредит
           </button>
         </div>
 

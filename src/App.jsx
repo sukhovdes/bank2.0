@@ -5,6 +5,7 @@ import Payments from './pages/Payments.jsx'
 import Services from './pages/Services.jsx'
 import Product from './pages/Product.jsx'
 import Welcome from './Welcome.jsx'
+import { IcGear, IcChevronDown } from './icons.jsx'
 
 const INITIAL_PRODUCTS = [
   { id: 'p-salary', label: 'Зарплатный проект', img: '/products/salary.png' },
@@ -60,12 +61,16 @@ export default function App() {
           <img className="logo" src="/icons/logo.svg" alt="ozon банк" />
         </button>
         <div className="topbar-right">
-          <button className="icon-btn bell"><img src="/icons/bell.svg" alt="Уведомления" width={24} height={24} /></button>
-          <div className="profile">
-            <div className="profile-name">ИП Коновалов И.Л.</div>
-            <div className="profile-inn">ИНН 341215944685</div>
-          </div>
-          <img className="avatar" src="/icons/avatar@3x.png" alt="" />
+          <button className="hdr-icon-btn bell" aria-label="Уведомления"><img src="/icons/bell.svg" alt="" /></button>
+          <button className="hdr-icon-btn" aria-label="Настройки"><IcGear width={20} height={20} /></button>
+          <button className="profile-chip">
+            <img className="avatar" src="/icons/avatar@3x.png" alt="" />
+            <span className="profile">
+              <span className="profile-name">ИП Левитан И.И.</span>
+              <span className="profile-inn">ИНН 501603001313</span>
+            </span>
+            <IcChevronDown width={20} height={20} className="profile-chevron" />
+          </button>
         </div>
       </header>
 
