@@ -214,16 +214,16 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
 @media (max-width: 900px) { .hdr-search { display: none; } }
 .topbar-right { display: flex; align-items: center; gap: 8px; }
-.hdr-icon-btn { width: 40px; height: 40px; border-radius: 50%; background: #0030780f; display: grid; place-items: center; color: var(--secondary); transition: background .14s; }
-.hdr-icon-btn:hover { background: #00307821; }
-.bell img { width: 16px; height: 18px; display: block; }
-.profile-chip { display: flex; align-items: center; gap: 10px; padding: 4px 8px 4px 4px; border-radius: 14px; transition: background .14s; }
-.profile-chip:hover { background: #0030780f; }
+.hdr-icon-btn { width: 44px; height: 44px; border-radius: 50%; background: #fff; box-shadow: 0 2px 10px #0a224614; display: grid; place-items: center; transition: box-shadow .14s, background .14s; }
+.hdr-icon-btn:hover { background: #f6f8fb; box-shadow: 0 4px 14px #0a22461f; }
+.hdr-icon-btn img { width: 24px; height: 24px; display: block; }
+.profile-chip { display: flex; align-items: center; gap: 8px; padding: 4px 8px 4px 4px; border-radius: 22px; background: #fff; box-shadow: 0 2px 10px #0a224614; transition: box-shadow .14s, background .14s; }
+.profile-chip:hover { background: #f6f8fb; box-shadow: 0 4px 14px #0a22461f; }
 .profile { display: flex; flex-direction: column; text-align: left; line-height: 1.2; }
 .profile-name { font-size: 14px; font-weight: 400; }
 .profile-inn { font-size: 11px; color: var(--muted); }
-.profile-chevron { color: var(--muted); flex-shrink: 0; }
-.avatar { width: 40px; height: 40px; border-radius: 50%; display: block; object-fit: cover; }
+.profile-chevron-img { width: 15px; height: 10px; display: block; flex-shrink: 0; }
+.avatar { width: 36px; height: 36px; border-radius: 50%; display: block; object-fit: cover; }
 .icon-btn { display: grid; place-items: center; color: var(--muted); padding: 6px; border-radius: 10px; }
 .icon-btn:hover { background: #00000008; }
 

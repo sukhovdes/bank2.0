@@ -6,7 +6,6 @@ import Services from './pages/Services.jsx'
 import Product from './pages/Product.jsx'
 import Welcome from './Welcome.jsx'
 import AiSearch from './components/AiSearch.jsx'
-import { IcChevronDown } from './icons.jsx'
 
 const INITIAL_PRODUCTS = [
   { id: 'p-salary', label: 'Зарплатный проект', img: '/products/salary.png' },
@@ -75,15 +74,15 @@ export default function App() {
         </button>
         <AiSearch />
         <div className="topbar-right">
-          <button className="hdr-icon-btn bell" aria-label="Уведомления"><img src="/icons/bell.svg" alt="" /></button>
-          <button className="hdr-icon-btn" aria-label="Настройки"><img className="hdr-gear" src="/icons/gear.svg" alt="" width={20} height={20} /></button>
+          <button className="hdr-icon-btn" aria-label="Уведомления"><img src="/icons/bell24.svg" alt="" width={24} height={24} /></button>
+          <button className="hdr-icon-btn" aria-label="Настройки"><img src="/icons/settings.svg" alt="" width={24} height={24} /></button>
           <button className="profile-chip">
             <img className="avatar" src="/icons/avatar@3x.png" alt="" />
             <span className="profile">
               <span className="profile-name">ИП Левитан И.И.</span>
               <span className="profile-inn">ИНН 501603001313</span>
             </span>
-            <IcChevronDown width={20} height={20} className="profile-chevron" />
+            <img className="profile-chevron-img" src="/icons/chevron_down.svg" alt="" />
           </button>
         </div>
       </header>
