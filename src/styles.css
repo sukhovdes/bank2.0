@@ -190,7 +190,9 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   content: ''; position: absolute; left: 0; right: 0; top: 100%; height: 28px;
   background: linear-gradient(180deg, var(--bg), transparent);
   pointer-events: none;
+  opacity: 0; transition: opacity .16s;
 }
+.topbar.scrolled::after { opacity: 1; }
 .logo-btn { padding: 0; display: block; cursor: pointer; flex-shrink: 0; }
 .logo { height: 24px; width: 156px; display: block; }
 
@@ -274,7 +276,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .switch span { position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: #fff; transition: transform .16s; }
 .switch.on span { transform: translateX(18px); }
 .quick-ic { display: block; width: 15px; height: 15px; }
-.card-mir { height: 30px; width: auto; display: block; border-radius: 4px; align-self: flex-start; }
+.card-mir { height: 30px; width: auto; display: block; border-radius: 4px; align-self: flex-start; margin-top: 8px; }
 
 /* Home grid */
 .home-grid { display: grid; grid-template-columns: 320px 1fr; gap: 32px; align-items: start; }
@@ -282,7 +284,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .card { background: var(--card); border-radius: var(--radius); padding: 20px 24px; transition: transform .28s cubic-bezier(.22,1,.36,1); }
 .card:not(.no-hover):hover { transform: translateY(-1px); }
 /* Единый вертикальный ритм у продуктовых карточек, чтобы расстояния не прыгали */
-.card.account { display: flex; flex-direction: column; gap: 10px; }
+.card.account { display: flex; flex-direction: column; gap: 6px; }
 
 /* Промо-карточка продукта */
 .promo-card { position: relative; }
@@ -296,7 +298,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .card-top { display: flex; justify-content: space-between; align-items: flex-start; }
 .kebab { color: var(--muted); letter-spacing: 1px; }
 .sum-row { display: flex; align-items: center; gap: 12px; }
-.sum { font-size: 24px; font-weight: 700; }
+.sum { font-size: 24px; font-weight: 700; line-height: 1.1; }
 .sum-dim { color: var(--muted); font-weight: 700; }
 .card-chip {
   background: #1a2a6c; color: #fff; font-size: 10px; font-weight: 700;

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Dock from './Dock.jsx'
 import Home from './pages/Home.jsx'
 import Payments from './pages/Payments.jsx'
@@ -26,6 +26,14 @@ export default function App() {
   const [view, setView] = useState('home')
   const [products, setProducts] = useState(INITIAL_PRODUCTS)
   const [banner, setBanner] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 0)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   if (!entered) return <Welcome onEnter={() => setEntered(true)} />
 
@@ -68,7 +76,7 @@ export default function App() {
           </button>
         </div>
       )}
-      <header className="topbar">
+      <header className={'topbar' + (scrolled ? ' scrolled' : '')}>
         <button className="logo-btn" onClick={() => setView('home')} aria-label="На главную">
           <img className="logo" src="/icons/logo.svg" alt="ozon банк" />
         </button>
