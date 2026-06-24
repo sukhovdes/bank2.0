@@ -221,15 +221,15 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
 @media (max-width: 900px) { .hdr-search { display: none; } }
 .topbar-right { display: flex; align-items: center; gap: 8px; }
-.hdr-icon-btn { width: 44px; height: 44px; border-radius: 50%; background: #fff; border: 1px solid #00307814; display: grid; place-items: center; transition: background .14s; }
+.hdr-icon-btn { width: 44px; height: 44px; border-radius: 50%; background: #fff; display: grid; place-items: center; transition: background .14s; }
 .hdr-icon-btn:hover { background: #f6f8fb; }
 .hdr-icon-btn img { width: 24px; height: 24px; display: block; }
-.profile-chip { display: flex; align-items: center; gap: 8px; padding: 4px 8px 4px 4px; border-radius: 22px; background: #fff; border: 1px solid #00307814; transition: background .14s; }
+.profile-chip { display: flex; align-items: center; gap: 8px; padding: 4px 10px 4px 4px; border-radius: 22px; background: #fff; transition: background .14s; }
 .profile-chip:hover { background: #f6f8fb; }
 .profile { display: flex; flex-direction: column; text-align: left; line-height: 1.2; }
 .profile-name { font-size: 14px; font-weight: 400; }
 .profile-inn { font-size: 11px; color: var(--muted); }
-.profile-chevron-img { width: 15px; height: 10px; display: block; flex-shrink: 0; }
+.profile-chevron-img { width: 12px; height: 8px; display: block; flex-shrink: 0; }
 .avatar { width: 36px; height: 36px; border-radius: 50%; display: block; object-fit: cover; }
 .icon-btn { display: grid; place-items: center; color: var(--muted); padding: 6px; border-radius: 10px; }
 .icon-btn:hover { background: #00000008; }
@@ -242,6 +242,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 .page { animation: fade .25s ease; }
 @keyframes fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes fadeOverlay { from { opacity: 0; } to { opacity: 1; } }
 
 /* Quick actions */
 .quick-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
@@ -331,13 +332,14 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   transition: background .12s;
 }
 .new-product-btn:hover, .new-product-btn.is-open { background: #004fdb; }
+.new-product-btn.is-open { position: relative; z-index: 51; }
 .np-plus { font-size: 20px; line-height: 1; }
 
-/* Поповер «Добавить счёт или кредит» — карточки над кнопкой, без затемнения фона */
+/* Поповер «Добавить счёт или кредит» — карточки над кнопкой, с затемнением фона */
 .add-product-wrap { position: relative; }
-.popover-catch { position: fixed; inset: 0; z-index: 30; }
+.popover-catch { position: fixed; inset: 0; z-index: 50; background: rgba(0, 26, 52, .28); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); animation: fadeOverlay .2s ease; }
 .add-popover {
-  position: absolute; bottom: calc(100% + 8px); left: 0; right: 0; z-index: 31;
+  position: absolute; bottom: calc(100% + 8px); left: 0; right: 0; z-index: 51;
   background: var(--card); border: 1px solid #00307814; border-radius: 18px; padding: 8px; display: flex; flex-direction: column; gap: 2px;
   animation: popUp .18s cubic-bezier(.22,1,.36,1) both;
 }
