@@ -6,6 +6,7 @@ import Services from './pages/Services.jsx'
 import Product from './pages/Product.jsx'
 import Welcome from './Welcome.jsx'
 import AiSearch from './components/AiSearch.jsx'
+import SearchV2 from './components/SearchV2.jsx'
 
 const INITIAL_PRODUCTS = [
   { id: 'p-salary', label: 'Зарплатный проект', img: '/products/salary.png', connected: false },
@@ -30,6 +31,7 @@ const loadProducts = () => {
 }
 
 export default function App() {
+  const VARIANT = window.location.pathname.includes('version2') ? 'v2' : 'v1'
   const [entered, setEntered] = useState(false)
   const [view, setView] = useState('home')
   const [products, setProducts] = useState(loadProducts)
@@ -96,8 +98,9 @@ export default function App() {
         <button className="logo-btn" onClick={() => setView('home')} aria-label="На главную">
           <img className="logo" src="/icons/logo.svg" alt="ozon банк" />
         </button>
-        <AiSearch />
+        {VARIANT !== 'v2' && <AiSearch />}
         <div className="topbar-right">
+          {VARIANT === "v2" && <SearchV2 />}
           <button className="hdr-icon-btn" aria-label="Уведомления"><img src="/icons/bell24.svg" alt="" width={24} height={24} /></button>
           <button className="hdr-icon-btn" aria-label="Настройки"><img src="/icons/settings.svg" alt="" width={24} height={24} /></button>
           <button className="profile-chip">

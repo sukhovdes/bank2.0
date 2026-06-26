@@ -1,14 +1,24 @@
 import { useRef, useState } from 'react'
 
+const mask = (url) => ({ WebkitMaskImage: `url(${url})`, maskImage: `url(${url})` })
+
 const SECTIONS = [
   { id: 'home', label: 'Главная', icon: '/icons/home.svg' },
   { id: 'payments', label: 'Платежи', icon: '/icons/rubles_toolbar.svg' },
   { id: 'services', label: 'Сервисы', icon: '/icons/catalog.svg' },
 ]
 
+// Быстрые пункты для «Платежей» (показываются по ховеру шеврона)
+const PAY_ITEMS = [
+  { label: 'Отправить по реквизитам', icon: '/icons/document.svg' },
+  { label: 'Между счетами', icon: '/icons/exchange.svg' },
+  { label: 'Выставить счёт', icon: '/icons/document_add.svg' },
+]
+
 export default function Dock({ active, onNavigate, products, onAddProduct, onRemoveProduct }) {
   const [revealed, setRevealed] = useState(false)
   const [dragId, setDragId] = useState(null)
+  const [payMenu, setPayMenu] = useState(false)
   const dockRef = useRef(null)
 
   // На главной док в полный размер; в разделах/продуктах — уменьшается, на hover растёт обратно.
@@ -24,14 +34,51 @@ export default function Dock({ active, onNavigate, products, onAddProduct, onRem
       <div className="dock-hotzone" />
 
       <div className="dock" ref={dockRef}>
-        {SECTIONS.map(({ id, label, icon }) => (
-          <DockItem key={id} section active={active === id} onClick={() => onNavigate(id)}>
-            <span className="dock-section">
-              <span className="dock-section-ic mask-icon" style={{ WebkitMaskImage: `url(${icon})`, maskImage: `url(${icon})` }} />
-              <span className="dock-section-label">{label}</span>
-            </span>
-          </DockItem>
-        ))}
+        {SECTIONS.map(({ id, label, icon }) =>
+          id === 'payments' ? (
+            <div key={id} className="dock-item-wrap" onMouseLeave={() => setPayMenu(false)}>
+              <DockItem section active={active === id} onClick={() => onNavigate(id)}>
+                <span className="dock-section">
+                  <span className="dock-section-ic mask-icon" style={mask(icon)} />
+                  <span className="dock-section-label">{label}</span>
+                </span>
+              </DockItem>
+              <span className="dock-caret-anchor">
+              <button
+                className={`dock-caret-btn${payMenu ? ' is-open' : ''}`}
+                onMouseEnter={() => setPayMenu(true)}
+                onClick={() => setPayMenu((v) => !v)}
+                aria-label="Быстрые платежи"
+              >
+                <span className="dock-caret mask-icon" style={mask('/icons/chevron_down.svg')} />
+              </button>
+              {payMenu && (
+                <div className="dock-pop-wrap">
+                  <div className="dock-pop">
+                    {PAY_ITEMS.map((it) => (
+                      <button
+                        key={it.label}
+                        className="dock-pop-item"
+                        onClick={() => { onNavigate('payments'); setPayMenu(false) }}
+                      >
+                        <span className="dock-pop-ic mask-icon" style={mask(it.icon)} />
+                        <span>{it.label}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+              </span>
+            </div>
+          ) : (
+            <DockItem key={id} section active={active === id} onClick={() => onNavigate(id)}>
+              <span className="dock-section">
+                <span className="dock-section-ic mask-icon" style={mask(icon)} />
+                <span className="dock-section-label">{label}</span>
+              </span>
+            </DockItem>
+          )
+        )}
 
         <span className="dock-divider" />
 
