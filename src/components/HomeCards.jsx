@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { IcRefresh } from '../icons.jsx'
 
 // Карточка счёта для бизнеса. Клик по телу — баннер, клик по иконке карты — модалка.
@@ -17,11 +18,12 @@ export function BusinessAccountCard({ onBody, onIcon }) {
 
 // Отсрочка
 export function DeferralCard() {
+  const [updated, setUpdated] = useState(false)
   return (
     <div className="card account">
       <span className="muted">Отсрочка на Ozon для бизнеса</span>
-      <div className="sum">Доступно: 200 000<span className="sum-dim"> ₽</span></div>
-      <button className="link-btn"><IcRefresh width={18} height={18} /><span>Обновить лимит</span></button>
+      <div className="sum">{updated ? <>Доступно: 200 000<span className="sum-dim"> ₽</span></> : <span className="sum-dim">Лимит устарел</span>}</div>
+      <button className="link-btn" onClick={() => setUpdated(true)}><IcRefresh width={18} height={18} /><span>Обновить лимит</span></button>
     </div>
   )
 }

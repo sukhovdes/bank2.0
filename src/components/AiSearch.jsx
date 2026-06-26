@@ -16,7 +16,7 @@ const SUGGESTIONS = [
 ]
 
 const Spark = ({ size = 20 }) => (
-  <img className="ai-spark" src="/icons/sparkles.svg" alt="" width={size} height={size} />
+  <img className="ai-spark" src="/icons/search.svg" alt="" width={size} height={size} />
 )
 
 export default function AiSearch() {

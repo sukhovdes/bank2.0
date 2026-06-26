@@ -6,7 +6,7 @@ import QuickSettings from '../components/QuickSettings.jsx'
 import { BusinessAccountCard, DeferralCard, PromoCard } from '../components/HomeCards.jsx'
 
 const QUICK = [
-  { id: 'pay', icon: '/icons/circle_plus.svg', label: 'Новый платёж', on: true },
+  { id: 'pay', icon: '/icons/plus.svg', label: 'Новый платёж', on: true },
   { id: 'topup', icon: '/icons/rubles.svg', label: 'Пополнить счёт', on: true },
   { id: 'between', icon: '/icons/exchange.svg', label: 'Между счетами', on: true },
   { id: 'invoice', icon: '/icons/document_add.svg', label: 'Выставить счёт', on: true },
@@ -17,15 +17,15 @@ const QUICK = [
 
 const TASKS = [
   { icon: '/icons/tax.svg', title: 'Сдать декларацию за 2024 в налоговую', sub: 'До 24 апреля' },
-  { icon: '/icons/document_task.svg', title: 'Подписать счёт', sub: 'До 01 февраля', badge: 3 },
-  { icon: '/icons/document_task.svg', title: 'Оплатить 930 000 ₽ по кредитному договору №123345', sub: 'До 05 февраля' },
+  { icon: '/icons/document.svg', title: 'Подписать счёт', sub: 'До 01 февраля', badge: 3 },
+  { icon: '/icons/document.svg', title: 'Оплатить 930 000 ₽ по кредитному договору №123345', sub: 'До 05 февраля' },
 ]
 
 const HISTORY = [
   { icon: '/icons/rubles.svg', title: 'Пополнение счёта', sub: 'Сегодня · 14:32', amount: '+150 000 ₽', positive: true },
   { icon: '/icons/exchange.svg', title: 'ООО «Ромашка» · оплата по счёту', sub: 'Сегодня · 11:08', amount: '−84 200 ₽' },
   { icon: '/icons/document.svg', title: 'Налог УСН за I квартал', sub: 'Вчера · 18:45', amount: '−42 000 ₽' },
-  { icon: '/icons/circle_plus.svg', title: 'Зарплата · 12 сотрудников', sub: '08 февраля', amount: '−640 000 ₽' },
+  { icon: '/icons/plus.svg', title: 'Зарплата · 12 сотрудников', sub: '08 февраля', amount: '−640 000 ₽' },
 ]
 
 const ADD_ITEMS = [
@@ -55,7 +55,7 @@ export default function Home({ onNavigate, onShowBanner, onOpenProduct }) {
       <div className="quick-row">
         {quick.filter((q) => q.on).map(({ id, icon, label }) => (
           <button key={id} className="quick-btn" onClick={() => onNavigate('payments')}>
-            <img className="quick-ic" src={icon} alt="" width={15} height={15} />
+            <img className="quick-ic" src={icon} alt="" width={24} height={24} />
             <span>{label}</span>
           </button>
         ))}

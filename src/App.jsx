@@ -8,9 +8,9 @@ import Welcome from './Welcome.jsx'
 import AiSearch from './components/AiSearch.jsx'
 
 const INITIAL_PRODUCTS = [
-  { id: 'p-salary', label: 'Зарплатный проект', img: '/products/salary.png' },
-  { id: 'p-accounting', label: 'Бухгалтерия', img: '/products/accounting.png' },
-  { id: 'p-delay', label: 'Отсрочка', img: '/products/delay.png' },
+  { id: 'p-salary', label: 'Зарплатный проект', img: '/products/salary.png', connected: false },
+  { id: 'p-accounting', label: 'Бухгалтерия', img: '/products/accounting.png', connected: false },
+  { id: 'p-delay', label: 'Отсрочка', img: '/products/delay.png', connected: false },
 ]
 
 const CATALOG = [
@@ -21,12 +21,21 @@ const CATALOG = [
   { label: 'Аналитика селлера', img: '/products/analytics.png' },
 ]
 
+const loadProducts = () => {
+  try {
+    const raw = localStorage.getItem('oz-products')
+    if (raw) return JSON.parse(raw)
+  } catch (e) { /* ignore */ }
+  return INITIAL_PRODUCTS
+}
+
 export default function App() {
   const [entered, setEntered] = useState(false)
   const [view, setView] = useState('home')
-  const [products, setProducts] = useState(INITIAL_PRODUCTS)
+  const [products, setProducts] = useState(loadProducts)
   const [banner, setBanner] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [productOrigin, setProductOrigin] = useState("home")
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 0)
@@ -35,17 +44,23 @@ export default function App() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
+  useEffect(() => {
+    try { localStorage.setItem('oz-products', JSON.stringify(products)) } catch (e) { /* ignore */ }
+  }, [products])
+
   if (!entered) return <Welcome onEnter={() => setEntered(true)} />
 
   const openProduct = (tile) => {
+    setProductOrigin(view)
+    const existing = products.find((p) => p.label === tile.label)
+    if (existing) { setView(existing.id); return }
     const id = 'p-' + tile.label
-    setProducts((prev) =>
-      prev.find((p) => p.id === id)
-        ? prev
-        : [...prev, { id, label: tile.label, img: tile.img }]
-    )
+    setProducts((prev) => [...prev, { id, label: tile.label, img: tile.img, connected: false }])
     setView(id)
   }
+
+  const connectProduct = (id) =>
+    setProducts((prev) => prev.map((p) => (p.id === id ? { ...p, connected: true } : p)))
 
   const addProduct = () => setView('services')
 
@@ -60,7 +75,7 @@ export default function App() {
   if (view === 'home') content = <Home onNavigate={setView} onShowBanner={() => setBanner(true)} onOpenProduct={openProduct} />
   else if (view === 'payments') content = <Payments />
   else if (view === 'services') content = <Services onOpenProduct={openProduct} />
-  else if (product) content = <Product product={product} />
+  else if (product) content = <Product product={product} onBack={() => setView(productOrigin)} onConnect={() => connectProduct(product.id)} />
   else content = <Payments />
 
   return (
@@ -77,6 +92,7 @@ export default function App() {
         </div>
       )}
       <header className={'topbar' + (scrolled ? ' scrolled' : '')}>
+        <div className="topbar-inner">
         <button className="logo-btn" onClick={() => setView('home')} aria-label="На главную">
           <img className="logo" src="/icons/logo.svg" alt="ozon банк" />
         </button>
@@ -92,6 +108,7 @@ export default function App() {
             </span>
             <img className="profile-chevron-img" src="/icons/chevron_down.svg" alt="" />
           </button>
+        </div>
         </div>
       </header>
 

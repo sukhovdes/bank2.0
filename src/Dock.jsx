@@ -27,7 +27,7 @@ export default function Dock({ active, onNavigate, products, onAddProduct, onRem
         {SECTIONS.map(({ id, label, icon }) => (
           <DockItem key={id} section active={active === id} onClick={() => onNavigate(id)}>
             <span className="dock-section">
-              <img className="dock-section-ic" src={icon} alt="" />
+              <span className="dock-section-ic mask-icon" style={{ WebkitMaskImage: `url(${icon})`, maskImage: `url(${icon})` }} />
               <span className="dock-section-label">{label}</span>
             </span>
           </DockItem>
