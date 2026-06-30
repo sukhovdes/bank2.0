@@ -42,11 +42,31 @@
 - `src/pages/Payments.jsx`, `Services.jsx`, `components/CardModal.jsx`, `PaymentDrawer.jsx` — без больших изменений.
 - `src/styles.css` — все стили. `vercel.json` — SPA-rewrite для роутинга.
 
-## version2 (варианты по URL)
-- `VARIANT = window.location.pathname.includes('version2') ? 'v2' : 'v1'`.
-- `/` — v1 (поиск по центру, AiSearch). `/version2` — v2 (иконка-лупа SearchV2, без центрального поиска).
-- `vercel.json`: `rewrites` всё → `/index.html`, чтобы прямой заход на путь не давал 404.
-- Так можно добавлять новые варианты навигации/поиска по ссылкам.
+## Разводящая по версиям (по URL) — ВАЖНО
+- Голый `/` → **разводящая** `src/Dispatcher.jsx` (крупные ссылки-переходы). Прод-корень теперь открывает её.
+- `variant` берётся из `?v=`: `new` | `search` | `default`. Легаси: `?new`→new, `/version2`→default.
+  - **New** (`?v=new`) — «Первая авторизация в ДБО»: онбординг новичка (пустые состояния, слайдер настройки, лимиты, подсказка в доке) + поиск-иконка справа.
+  - **SearchOpened** (`?v=search`) — строка поиска раскрыта в центре шапки (AiSearch).
+  - **Default** (`?v=default`) — поиск свёрнут в иконку-лупу справа (SearchV2).
+- В App: `SHOW_DISPATCHER=!variant`, `NEW_CLIENT=variant==='new'`, `SEARCH_EXPANDED=variant==='search'`. Все хуки до условных `return`.
+- `vercel.json`: `rewrites` всё → `/index.html` (query сохраняется).
+
+## Состояние «новичок» (NEW_CLIENT, ?v=new)
+- Продукты в доке пустые (в App `products=[]`, в localStorage не пишем); подсказка `.dock-hint` у «+» (синий пузырь + пульс), пропадает после первого продукта (`onboarding` проп Dock).
+- BusinessAccountCard `empty` (0 ₽, «Карта ещё не выпущена»); DeferralCard/кредит/задачи скрыты; промо остаётся.
+- Правая колонка: слайдер настройки → лимиты → история (empty-state как у продуктов: серая mask-иконка `IcEmpty` + текст).
+- Слайдер «Настройте всё для работы» (`src/pages/Home.jsx`, массив `SETUP`): карточки в белом контейнере-карточке (как «История»), шеврон сворачивания (`setupOpen`), фейд справа (mask-gradient на `.setup-slider-wrap`). Дизайн карточки: текст слева + 3D-иллюстрация справа за край, рамка `rgba(204,214,228,.6)`. Иллюстрации `public/products/setup_login|employee|topup.png` (из Figma). Сейчас 5 карточек, но иллюстраций своих 3 — «бизнес-карта»/«документы» временно дублируют первые две.
+- Блок «Лимиты» — `.card.limits` (две `.limit-box` с прогресс-барами), без иконок.
+
+## Оверлеи (единый стиль = поиск)
+- Все оверлеи: фон `rgba(242,245,249,.55)` + `backdrop-filter: blur(18px) saturate(120%)`, `z-index 120`: `.sv2-overlay`, `.ai-overlay`, `.popover-catch` (новый продукт).
+- Шапка `.topbar` z-index **60** (выше дока 50) — иначе sticky-контекст шапки запирал оверлеи поиска под доком.
+- `.page` анимация только opacity (без translateY) — трансформ создавал containing block и ломал fixed-подложки.
+
+## Экран кредита
+- `src/pages/Credit.jsx` (view `credit`) — заявка на кредит из Figma: прогресс-бар, кнопка назад (синий шеврон `.credit-back`), заголовок + №, карточка с двумя слайдерами (сумма/срок) + панель расчёта, кнопка «Продолжить». Иконка-галочка `public/icons/check.svg` из Figma.
+- Подключение «Кредит…» из Сервисов/каталога открывает Credit (в `openProduct` ветка по `label.includes('кредит')`), не общую анкету. Назад → `productOrigin`.
+- Бэки `.credit-back` и `.pw-back` приведены к одному виду: плашка `--blue-soft` + синий шеврон.
 
 ## Дизайн-решения
 - Тени убраны (DS без теней). Тень шапки (градиент `.topbar::after`) появляется только при скролле (класс `.scrolled`).

@@ -4,6 +4,8 @@ import Home from './pages/Home.jsx'
 import Payments from './pages/Payments.jsx'
 import Services from './pages/Services.jsx'
 import Product from './pages/Product.jsx'
+import Credit from './pages/Credit.jsx'
+import Dispatcher from './Dispatcher.jsx'
 import Welcome from './Welcome.jsx'
 import AiSearch from './components/AiSearch.jsx'
 import SearchV2 from './components/SearchV2.jsx'
@@ -31,10 +33,20 @@ const loadProducts = () => {
 }
 
 export default function App() {
-  const VARIANT = window.location.pathname.includes('version2') ? 'v2' : 'v1'
+  // Разводящая по версиям. По умолчанию (голый /) открывается разводящая.
+  const url = new URL(window.location.href)
+  let variant = url.searchParams.get('v')
+  if (!variant) {
+    if (url.searchParams.has('new')) variant = 'new'          // легаси-ссылка
+    else if (url.pathname.includes('version2')) variant = 'default'
+  }
+  const SHOW_DISPATCHER = !variant
+  const NEW_CLIENT = variant === 'new'
+  // 'search' → строка поиска раскрыта в центре шапки; иначе иконка-лупа справа
+  const SEARCH_EXPANDED = variant === 'search'
   const [entered, setEntered] = useState(false)
   const [view, setView] = useState('home')
-  const [products, setProducts] = useState(loadProducts)
+  const [products, setProducts] = useState(NEW_CLIENT ? [] : loadProducts)
   const [banner, setBanner] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [productOrigin, setProductOrigin] = useState("home")
@@ -47,13 +59,17 @@ export default function App() {
   }, [])
 
   useEffect(() => {
+    if (NEW_CLIENT) return // не засоряем общий localStorage демо-режимом
     try { localStorage.setItem('oz-products', JSON.stringify(products)) } catch (e) { /* ignore */ }
   }, [products])
 
+  if (SHOW_DISPATCHER) return <Dispatcher />
   if (!entered) return <Welcome onEnter={() => setEntered(true)} />
 
   const openProduct = (tile) => {
     setProductOrigin(view)
+    // Кредит открывает нашу новую форму заявки, а не общую анкету продукта
+    if (tile.label?.toLowerCase().includes('кредит')) { setView('credit'); return }
     const existing = products.find((p) => p.label === tile.label)
     if (existing) { setView(existing.id); return }
     const id = 'p-' + tile.label
@@ -74,9 +90,10 @@ export default function App() {
   const product = products.find((p) => p.id === view)
 
   let content
-  if (view === 'home') content = <Home onNavigate={setView} onShowBanner={() => setBanner(true)} onOpenProduct={openProduct} />
+  if (view === 'home') content = <Home onNavigate={setView} onShowBanner={() => setBanner(true)} onOpenProduct={openProduct} onOpenCredit={() => { setProductOrigin('home'); setView('credit') }} newClient={NEW_CLIENT} />
   else if (view === 'payments') content = <Payments />
   else if (view === 'services') content = <Services onOpenProduct={openProduct} />
+  else if (view === 'credit') content = <Credit onBack={() => setView(productOrigin)} />
   else if (product) content = <Product product={product} onBack={() => setView(productOrigin)} onConnect={() => connectProduct(product.id)} />
   else content = <Payments />
 
@@ -98,9 +115,9 @@ export default function App() {
         <button className="logo-btn" onClick={() => setView('home')} aria-label="На главную">
           <img className="logo" src="/icons/logo.svg" alt="ozon банк" />
         </button>
-        {VARIANT !== 'v2' && <AiSearch />}
+        {SEARCH_EXPANDED && <AiSearch />}
         <div className="topbar-right">
-          {VARIANT === "v2" && <SearchV2 />}
+          {!SEARCH_EXPANDED && <SearchV2 />}
           <button className="hdr-icon-btn" aria-label="Уведомления"><img src="/icons/bell24.svg" alt="" width={24} height={24} /></button>
           <button className="hdr-icon-btn" aria-label="Настройки"><img src="/icons/settings.svg" alt="" width={24} height={24} /></button>
           <button className="profile-chip">
@@ -123,6 +140,7 @@ export default function App() {
         products={products}
         onAddProduct={addProduct}
         onRemoveProduct={removeProduct}
+        onboarding={NEW_CLIENT && products.length === 0}
       />
     </div>
   )

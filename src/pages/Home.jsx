@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
-import { IcChevron } from '../icons.jsx'
+import { IcChevron, IcChevronDown, IcEmpty } from '../icons.jsx'
 import CardModal from '../components/CardModal.jsx'
 import QuickSettings from '../components/QuickSettings.jsx'
 import { BusinessAccountCard, DeferralCard, PromoCard } from '../components/HomeCards.jsx'
@@ -35,9 +35,19 @@ const ADD_ITEMS = [
   { label: 'Деньги на закупки', img: '/products/purchases.png', desc: 'Финансирование товара для Ozon' },
 ]
 
+// Онбординг-слайдер: что новому клиенту сделать для настройки счёта
+const SETUP = [
+  { id: 'login', img: '/products/setup_login.png', title: 'Настройте быстрый вход', desc: 'Вход по коду или Face ID' },
+  { id: 'employee', img: '/products/setup_employee.png', title: 'Добавьте сотрудника', desc: 'Дайте команде доступ к счёту' },
+  { id: 'topup', img: '/products/setup_topup.png', title: 'Пополните счёт', desc: 'Начните пользоваться счётом' },
+  // Дубли первых двух иллюстраций как заглушки, пока нет своих ассетов
+  { id: 'card', img: '/products/setup_login.png', title: 'Выпустите бизнес-карту', desc: 'Для расходов компании с кешбэком' },
+  { id: 'docs', img: '/products/setup_employee.png', title: 'Загрузите документы', desc: 'Реквизиты и уставные документы' },
+]
+
 const CARD_SPRING = { duration: 0.32, ease: [0.22, 1, 0.36, 1] }
 
-export default function Home({ onNavigate, onShowBanner, onOpenProduct }) {
+export default function Home({ onNavigate, onShowBanner, onOpenProduct, onOpenCredit, newClient }) {
   // Прогресс-бар заявки заполняется анимацией при каждом открытии Главной
   const [progressW, setProgressW] = useState(0)
   useEffect(() => {
@@ -49,6 +59,7 @@ export default function Home({ onNavigate, onShowBanner, onOpenProduct }) {
   const [addOpen, setAddOpen] = useState(false)
   const [quick, setQuick] = useState(QUICK)
   const [settingsOpen, setSettingsOpen] = useState(false)
+  const [setupOpen, setSetupOpen] = useState(true)
 
   return (
     <div className="page page-home">
@@ -67,12 +78,14 @@ export default function Home({ onNavigate, onShowBanner, onOpenProduct }) {
       <div className="home-grid">
         <div className="col col-products">
           <motion.div layout transition={CARD_SPRING}>
-            <BusinessAccountCard onBody={() => onShowBanner?.()} onIcon={() => setCardOpen(true)} />
+            <BusinessAccountCard onBody={() => onShowBanner?.()} onIcon={() => setCardOpen(true)} empty={newClient} />
           </motion.div>
 
-          <motion.div layout transition={CARD_SPRING}>
-            <DeferralCard />
-          </motion.div>
+          {!newClient && (
+            <motion.div layout transition={CARD_SPRING}>
+              <DeferralCard />
+            </motion.div>
+          )}
 
           <AnimatePresence initial={false}>
             {promoOpen && (
@@ -116,49 +129,112 @@ export default function Home({ onNavigate, onShowBanner, onOpenProduct }) {
         </div>
 
         <div className="col">
-          <div className="card credit" onClick={() => onNavigate('credit')}>
-            <div className="credit-head">
-              <span>Заявка на кредит · 9266</span>
-              <IcChevron width={20} height={20} className="muted" />
+          {newClient && (
+            <div className="card setup no-hover">
+              <button className="setup-head" onClick={() => setSetupOpen((o) => !o)}>
+                <h3>Настройте всё для работы</h3>
+                <span className="setup-count muted">0 из {SETUP.length}</span>
+                <IcChevronDown width={20} height={20} className={`setup-toggle muted${setupOpen ? ' is-open' : ''}`} />
+              </button>
+              {setupOpen && (
+                <div className="setup-slider-wrap">
+                  <div className="setup-slider">
+                    {SETUP.map(({ id, img, title, desc }) => (
+                      <button key={id} className="setup-card" onClick={() => onNavigate('payments')}>
+                        <span className="setup-text">
+                          <span className="setup-title">{title}</span>
+                          <span className="setup-desc muted">{desc}</span>
+                        </span>
+                        <span className="setup-art"><img src={img} alt="" /></span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
-            <div className="progress">
-              <span className="progress-fill" style={{ width: `${progressW}%` }} />
-            </div>
-          </div>
+          )}
 
-          <div className="card tasks no-hover">
-            <div className="tasks-head">
-              <h3>Задачи</h3>
-              <div className="segment">
-                <button className="seg-active">Текущие</button>
-                <button>Будущие</button>
+          {!newClient && (
+            <div className="card credit" onClick={onOpenCredit}>
+              <div className="credit-head">
+                <span>Заявка на кредит · 9266</span>
+                <IcChevron width={20} height={20} className="muted" />
+              </div>
+              <div className="progress">
+                <span className="progress-fill" style={{ width: `${progressW}%` }} />
               </div>
             </div>
-            {TASKS.map((t, i) => (
-              <button className="task-row" key={i}>
-                <span className="task-ic"><img src={t.icon} alt="" width={24} height={24} /></span>
-                <div className="task-body">
-                  <div className="task-title">{t.title}</div>
-                  <div className="task-sub muted">{t.sub}</div>
+          )}
+
+          {!newClient && (
+            <div className="card tasks no-hover">
+              <div className="tasks-head">
+                <h3>Задачи</h3>
+                <div className="segment">
+                  <button className="seg-active">Текущие</button>
+                  <button>Будущие</button>
                 </div>
-                {t.badge && <span className="task-badge">{t.badge}</span>}
-                <IcChevron width={18} height={18} className="muted" />
-              </button>
-            ))}
-          </div>
+              </div>
+              {TASKS.map((t, i) => (
+                <button className="task-row" key={i}>
+                  <span className="task-ic"><img src={t.icon} alt="" width={24} height={24} /></span>
+                  <div className="task-body">
+                    <div className="task-title">{t.title}</div>
+                    <div className="task-sub muted">{t.sub}</div>
+                  </div>
+                  {t.badge && <span className="task-badge">{t.badge}</span>}
+                  <IcChevron width={18} height={18} className="muted" />
+                </button>
+              ))}
+            </div>
+          )}
+
+          {newClient && (
+            <div className="card limits no-hover">
+              <h3>Лимиты на июнь</h3>
+              <p className="limits-sub muted">Счётчик лимитов обновится 1 июля</p>
+              <div className="limits-grid">
+                <div className="limit-box">
+                  <div className="limit-box-title">Переводы физлицам и снятие наличных</div>
+                  <div className="limit-box-value">С комиссией 0%</div>
+                  <div className="limit-bar"><span style={{ width: '100%' }} /></div>
+                  <div className="limit-foot">
+                    <span>Осталось 150 000 ₽</span>
+                    <span className="muted">из 150 000 ₽</span>
+                  </div>
+                </div>
+                <div className="limit-box">
+                  <div className="limit-box-title">Стоимость перевода</div>
+                  <div className="limit-box-value">0 ₽</div>
+                  <div className="limit-bar"><span style={{ width: '100%' }} /></div>
+                  <div className="limit-foot">
+                    <span>Осталось 5 бесплатных</span>
+                    <span className="muted">из 5 переводов</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
 
           <div className="card history no-hover">
             <h3>История</h3>
-            {HISTORY.map((h, i) => (
-              <button className="task-row" key={i}>
-                <span className="task-ic"><img src={h.icon} alt="" width={24} height={24} /></span>
-                <div className="task-body">
-                  <div className="task-title">{h.title}</div>
-                  <div className="task-sub muted">{h.sub}</div>
-                </div>
-                <span className={`hist-amount${h.positive ? ' is-positive' : ''}`}>{h.amount}</span>
-              </button>
-            ))}
+            {newClient ? (
+              <div className="empty-state">
+                <IcEmpty width={48} height={48} className="empty-ic" />
+                <p className="empty-text">Здесь появятся ваши платежи и поступления</p>
+              </div>
+            ) : (
+              HISTORY.map((h, i) => (
+                <button className="task-row" key={i}>
+                  <span className="task-ic"><img src={h.icon} alt="" width={24} height={24} /></span>
+                  <div className="task-body">
+                    <div className="task-title">{h.title}</div>
+                    <div className="task-sub muted">{h.sub}</div>
+                  </div>
+                  <span className={`hist-amount${h.positive ? ' is-positive' : ''}`}>{h.amount}</span>
+                </button>
+              ))
+            )}
           </div>
         </div>
       </div>

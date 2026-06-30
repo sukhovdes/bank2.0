@@ -1,6 +1,13 @@
+import { useEffect } from 'react'
 import { BlurReveal } from './components/BlurReveal.jsx'
 
 export default function Welcome({ onEnter }) {
+  // Страховка: если анимация не завершилась (например, вкладка была в фоне) — всё равно входим
+  useEffect(() => {
+    const t = setTimeout(onEnter, 3000)
+    return () => clearTimeout(t)
+  }, [onEnter])
+
   return (
     <div className="welcome">
       <svg className="welcome-heart" viewBox="0 0 24 24" width="64" height="64" aria-hidden="true">

@@ -45,7 +45,7 @@ export default function QuickSettings({ items, setItems, onClose }) {
               <span className="qs-grip" aria-hidden>
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><circle cx="5" cy="4" r="1.4"/><circle cx="11" cy="4" r="1.4"/><circle cx="5" cy="8" r="1.4"/><circle cx="11" cy="8" r="1.4"/><circle cx="5" cy="12" r="1.4"/><circle cx="11" cy="12" r="1.4"/></svg>
               </span>
-              <img src={it.icon} alt="" width={18} height={18} />
+              <img src={it.icon} alt="" width={24} height={24} />
               <span className="qs-label">{it.label}</span>
               <button
                 className={`switch${it.on ? ' on' : ''}`}

@@ -15,7 +15,7 @@ const PAY_ITEMS = [
   { label: 'Выставить счёт', icon: '/icons/document_add.svg' },
 ]
 
-export default function Dock({ active, onNavigate, products, onAddProduct, onRemoveProduct }) {
+export default function Dock({ active, onNavigate, products, onAddProduct, onRemoveProduct, onboarding }) {
   const [revealed, setRevealed] = useState(false)
   const [dragId, setDragId] = useState(null)
   const [payMenu, setPayMenu] = useState(false)
@@ -99,11 +99,16 @@ export default function Dock({ active, onNavigate, products, onAddProduct, onRem
           </DockItem>
         ))}
 
-        <DockItem tip="Добавить продукт" onClick={onAddProduct}>
-          <span className="dock-add">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>
-          </span>
-        </DockItem>
+        <span className={`dock-add-anchor${onboarding ? ' has-hint' : ''}`}>
+          <DockItem tip={onboarding ? null : 'Добавить продукт'} onClick={onAddProduct}>
+            <span className="dock-add">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>
+            </span>
+          </DockItem>
+          {onboarding && (
+            <span className="dock-hint" role="status">Нажмите, чтобы подключить продукт</span>
+          )}
+        </span>
       </div>
     </div>
   )
